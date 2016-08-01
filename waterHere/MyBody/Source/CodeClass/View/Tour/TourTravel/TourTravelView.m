@@ -16,7 +16,7 @@
     if (_topView == nil) {
         self.topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 360)];
         [self addSubview:_topView];
-        self.topView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1]; 
+        self.topView.backgroundColor = [UIColor whiteColor];
     }
     return _topView;
 }

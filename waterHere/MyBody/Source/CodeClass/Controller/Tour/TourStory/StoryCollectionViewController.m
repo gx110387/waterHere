@@ -7,7 +7,7 @@
 //
 
 #import "StoryCollectionViewController.h"
-
+#import "TourStoryCollectionCell2.h"
 @interface StoryCollectionViewController ()
 
 @property (nonatomic,strong) NSMutableArray *storyArr;
@@ -25,9 +25,9 @@ static NSString * const reuseIdentifier = @"Cell";
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
-    [self.collectionView registerClass:[TourStoryCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+    [self.collectionView registerClass:[TourStoryCollectionCell2 class] forCellWithReuseIdentifier:@"cell"];
     
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = CustomerColor(240, 240, 240);
     
     self.navigationItem.title = @"精选故事";
     [self H_setupRefresh];
@@ -41,9 +41,11 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void) leftAction
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+//    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+//        
+//    }];
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,13 +78,13 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    TourStoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    TourStoryCollectionCell2 *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     if (cell == nil) {
-        cell = [[TourStoryCollectionViewCell alloc]init];
+        cell = [[TourStoryCollectionCell2 alloc]init];
     }
     StoryModel *model = self.storyArr[indexPath.row];
     [cell getValueFromStoryModel:model];
-    cell.backgroundColor = [UIColor colorWithRed:0.855 green:1.000 blue:0.856 alpha:1.000];
+//    cell.backgroundColor = [UIColor colorWithRed:0.855 green:1.000 blue:0.856 alpha:1.000];
     
     return cell;
 }
@@ -123,13 +125,11 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     StoryDetialViewController *sd = [[StoryDetialViewController alloc]init];
-    UINavigationController *sdN = [[UINavigationController alloc]initWithRootViewController:sd];
-    StoryModel *model = self.storyArr[indexPath.row];
+         StoryModel *model = self.storyArr[indexPath.row];
     sd.model = [[StoryModel alloc]init];
     sd.model = model;
-    [self.navigationController presentViewController:sdN animated:YES completion:^{
-        
-    }];
+    [self.navigationController pushViewController:sd animated:YES];
+   
 }
 
 

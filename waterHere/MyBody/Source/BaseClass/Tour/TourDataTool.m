@@ -146,6 +146,10 @@ static TourDataTool *tour = nil;
     return _TourTravelDataArr;
 }
 
+-(void)getSearchDataWithPlace:(NSString *)place passValue:(PassValue)passValue
+{
+    
+}
 
 
 

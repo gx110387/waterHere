@@ -22,17 +22,7 @@
 }
 
 
--(UIButton *)G_UserLoginOrRegistButton
-{
-    if (_G_UserLoginOrRegistButton ==nil) {
-        _G_UserLoginOrRegistButton = [[UIButton alloc] init];
-        [self addSubview:_G_UserLoginOrRegistButton];
-        [_G_UserLoginOrRegistButton setTitle:@"登陆//注册" forState:UIControlStateNormal];
-        [_G_UserLoginOrRegistButton addTarget:self action:@selector(ButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _G_UserLoginOrRegistButton;
-    
-}
+ 
 
 -(UILabel *)G_UserStartLabel
 {
@@ -60,11 +50,7 @@
     return _G_backgroundImage;
     
 }
--(void)ButtonAction
-{
-    [self.delegate loginButton];
-    
-}
+
 
 
 @end

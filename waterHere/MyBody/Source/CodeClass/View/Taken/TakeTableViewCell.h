@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "Product.h"
 @interface TakeTableViewCell : UITableViewCell
-@property(nonatomic,strong)UIImageView *title_page;
-@property(nonatomic,strong)UILabel *is_new;
-@property(nonatomic,strong)UILabel *title;
-@property(nonatomic,strong)UILabel *date_add_count;
-@property(nonatomic,strong)UIImageView *user;
 
-@property(nonatomic,strong)UILabel *price;
+@property(nonatomic,strong)UIImageView *headImg; // 头像
+@property(nonatomic,strong)UILabel  *dataLabel; // 日期
+@property(nonatomic,strong)UILabel  *addressAndLikelabel; //地点和喜欢人数
+@property(nonatomic,strong)UILabel  *priceLabel; // 价格
+
+@property(nonatomic,strong)UIImageView  *bigImg; //大图;
+@property(nonatomic,strong)UILabel  *titleLable; //介绍
 
 @property(nonatomic,strong)Product *Model;
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DesTripsSectionSecondTableViewController : UITableViewController
+@interface DesTripsSectionSecondTableViewController : UIViewController
 @property(nonatomic,strong)NSString *G_GountyName;
 @property(nonatomic,strong)NSString *G_type;
 @end

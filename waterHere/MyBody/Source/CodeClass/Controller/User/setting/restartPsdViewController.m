@@ -20,6 +20,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"修改密码";
     self.rv.delegate = self;
 }
 -(void)getData

@@ -15,7 +15,7 @@
         _flowLayout = [[UICollectionViewFlowLayout alloc]init];
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.bounds collectionViewLayout:_flowLayout];
         
-        _flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+        _flowLayout.sectionInset = UIEdgeInsetsMake(10, 17, 10, 17);
         [self.contentView addSubview:_collectionView];
         
         
@@ -29,7 +29,7 @@
 {
     [super layoutSubviews];
     self.collectionView.frame = self.bounds;
-    _flowLayout.itemSize = CGSizeMake((self.frame.size.width - 40) / 2, 170);
+    _flowLayout.itemSize = CGSizeMake(G_Iphone6(160), G_Iphone6(126));
 }
 
 

@@ -82,7 +82,7 @@
 
 - (void)layoutSubviews
 {
-    self.backView.backgroundColor = [UIColor grayColor];
+    self.backView.backgroundColor = [UIColor whiteColor];
     self.backView.frame = CGRectMake(20, 10, ScreenWidth - 40, CGRectGetHeight(self.contentView.frame) - 20);
     self.timeImage.frame = CGRectMake(CGRectGetMinX(self.text.frame), CGRectGetMaxY(self.text.frame) + 5, 20, 20);
     self.timeLabel.frame = CGRectMake(CGRectGetMaxX(self.timeImage.frame) + 5, CGRectGetMinY(self.timeImage.frame), 100, 20);

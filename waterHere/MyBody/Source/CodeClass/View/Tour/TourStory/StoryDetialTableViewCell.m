@@ -16,6 +16,11 @@
     if (_picture == nil) {
         self.picture = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, ScreenWidth - 40, 100)];
         [self.contentView addSubview:_picture];
+        UITapGestureRecognizer *panRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+        _picture.userInteractionEnabled = YES;
+        [_picture addGestureRecognizer:panRecognizer];//关键语句，给self.view添加一个手势监测；
+        //名字
+
     }
     return _picture;
 }
@@ -46,7 +51,9 @@
     // Initialization code
     
 }
-
+- (void)handlePanFrom:(UITapGestureRecognizer *)sender {
+    [SJAvatarBrowser showImage:(UIImageView*)sender.view];
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

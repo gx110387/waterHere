@@ -7,17 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HCSStarRatingView.h"
+@class AMRatingControl;
 @class NearModel;
-@interface ActivityTableViewCell : UITableViewCell
+@interface ActivityTableViewCell : UICollectionViewCell
 
-@property (nonatomic,strong) UIView *backView;
+ 
 
 @property (nonatomic,strong) UIImageView *leftView;
 
 @property (nonatomic,strong) UILabel *titleLabel;
 
-@property (nonatomic,strong) HCSStarRatingView  *starView;
+@property (nonatomic,strong) AMRatingControl  *starView;
 
 @property (nonatomic,strong) UILabel *commentLabel;
 

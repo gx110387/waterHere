@@ -7,7 +7,7 @@
 //
 
 #import "TourTravelViewController.h"
-
+#import "MWPhotoBrowser.h"
 @interface TourTravelViewController ()<UITableViewDataSource,UITableViewDelegate,MWPhotoBrowserDelegate>
 
 @property (nonatomic,strong) TourTravelView *tour;
@@ -32,25 +32,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
+    self.view.backgroundColor =  [UIColor whiteColor];
     self.tour.travelTableview.delegate = self;
     self.tour.travelTableview.dataSource = self;
     [self.tour.travelTableview registerClass:[TravelTableViewCell class] forCellReuseIdentifier:@"cell"];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(leftAction)];
+    
     self.photos = [NSMutableArray array];
     [self H_data];
     self.tour.travelTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tour.travelTableview.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-    
+    self.tour.travelTableview.backgroundColor =  [UIColor whiteColor];
 }
 
 
-- (void) leftAction
-{
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -68,6 +61,7 @@
     TravrlDayModel *day = self.dayArr[section];
     NSArray *arr = [self.travelDict objectForKey:day.day];
     return arr.count;
+    
 }
 
 
@@ -77,7 +71,7 @@
     if (cell == nil) {
         cell = [[TravelTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
+    cell.backgroundColor = [UIColor whiteColor];
     TravrlDayModel *dayModel = self.dayArr[indexPath.section];
     NSArray *arr = [self.travelDict objectForKey:dayModel.day];
     WayPointsModel *model = arr[indexPath.row];

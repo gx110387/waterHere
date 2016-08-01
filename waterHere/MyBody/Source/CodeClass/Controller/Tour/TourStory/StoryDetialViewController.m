@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(leftAction)];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(leftAction)];
     self.navigationItem.title = @"故事详情";
     [self H_data];
     [self.sd.detialTableView registerClass:[StoryDetialTableViewCell class] forCellReuseIdentifier:@"cell"];
@@ -52,9 +52,7 @@
 
 - (void) leftAction
 {
-    [self.navigationController dismissViewControllerAnimated:NO completion:^{
-        
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

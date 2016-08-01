@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DestinationMainController : UITableViewController
+@interface DestinationMainController : UIViewController
 
 
 @end

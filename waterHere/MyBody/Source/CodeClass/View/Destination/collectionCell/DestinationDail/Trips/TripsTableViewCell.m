@@ -7,7 +7,8 @@
 //
 
 #import "TripsTableViewCell.h"
-
+#import "GHMyPhotoView.h"
+#import "UIView+Sizes.h"
 @implementation TripsTableViewCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier WithUrlArray  :(NSArray *)imageUrlArray id1:(NSString *)id1
@@ -32,21 +33,21 @@
     self.myAvatar.layer.masksToBounds = YES;
     self.myAvatar.layer.borderWidth = 0.1;
     // self.myAvatar.layer.backgroundColor = [UIColor cyanColor].CGColor;
-    [self addSubview:_myAvatar];
+    [self.contentView addSubview:_myAvatar];
     
     //用户名
     self.myUser_Name = [[UILabel alloc] init];
     self.myUser_Name.frame = CGRectMake(CGRectGetMaxX(self.myAvatar.frame)+5, CGRectGetMinY(self.myAvatar.frame), 100, 20);
     self.myUser_Name.text = @"meteor0428";
     // self.myUser_Name.backgroundColor = [UIColor cyanColor];
-    [self addSubview:_myUser_Name];
+    [self.contentView addSubview:_myUser_Name];
     
     // 等级
     self.myLevel_info_Value = [[UILabel alloc] init];
     self.myLevel_info_Value.frame = CGRectMake(CGRectGetMaxX(self.myUser_Name.frame),CGRectGetMinY(self.myUser_Name.frame) , 40, CGRectGetHeight(self.myUser_Name.frame));
     self.myLevel_info_Value.text =@"lv.2";
     //self.myLevel_info_Value.backgroundColor = [UIColor cyanColor];
-    [self addSubview:_myLevel_info_Value];
+    [self.contentView addSubview:_myLevel_info_Value];
     
     
     // 时间
@@ -54,43 +55,19 @@
     self.myTrip_datatime.frame = CGRectMake(CGRectGetWidth(self.frame)-CGRectGetWidth(self.myUser_Name.frame)+10, CGRectGetMinY(self.myUser_Name.frame), CGRectGetWidth(self.myUser_Name.frame)-10 , CGRectGetHeight(self.myUser_Name.frame));
     // self.myTrip_datatime.backgroundColor = [UIColor yellowColor];
     self.myTrip_datatime.text =@"2015.10.02";
-    [self addSubview:_myTrip_datatime];
+    [self.contentView addSubview:_myTrip_datatime];
     
     // 地点
     self.myTrip_name = [[UILabel alloc] init];
     self.myTrip_name.frame = CGRectMake(CGRectGetMinX(self.myUser_Name.frame) , CGRectGetMaxY(self.myUser_Name.frame)+10, CGRectGetWidth(self.frame)-CGRectGetWidth(self.myAvatar.frame)-5, CGRectGetHeight(self.myUser_Name.frame));
     self.myTrip_name.text =@"Hello Singapore";
     // self.myTrip_name.backgroundColor = [UIColor cyanColor];
-    [self addSubview:_myTrip_name];
+    [self.contentView addSubview:_myTrip_name];
     
-    // 评论
-    
-    // 滑动
-    //    self.myImageScroll = [[UIScrollView alloc] init];
-    //    self.myImageScroll.frame = CGRectMake(0, CGRectGetMaxY(self.myTrip_text.frame), CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)/3);
-    //   // NSLog(@"%f",CGRectGetWidth(self.frame)/3);
-    //    self.myImageScroll .backgroundColor = [UIColor cyanColor];
-    //    self.myImageScroll.contentSize = CGSizeMake(CGRectGetWidth(self.myImageScroll.frame)*3, CGRectGetWidth(self.frame)/3);
-    //    [self addSubview:_myImageScroll];
-    
-    UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
-    flow.itemSize = CGSizeMake(120, CGRectGetWidth(self.frame)/3-10);
-    flow.minimumInteritemSpacing = 5;
-    flow.minimumLineSpacing =5;
-    flow.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    flow.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5);
-    
-    
-    self.firstCollectionVC = [[FirstCollectionViewController alloc] initWithCollectionViewLayout:flow WithImageUrlArray:self.imageUrlArray id1:self.id1];
-
-    self.firstCollectionVC.view.frame =CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)/3);
-
-    self.myFirstCollectionView  = [[UIView alloc] init];
-   // self.myFirstCollectionView.backgroundColor = [UIColor yellowColor];
-    self.myFirstCollectionView.frame =CGRectMake(0, CGRectGetMaxY(self.myTrip_text.frame), CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)/3);
-    
-    [self addSubview:_myFirstCollectionView];
-    [_myFirstCollectionView addSubview:self.firstCollectionVC.view ];
+  
+    _PhotoView = [[GHMyPhotoView  alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.myTrip_text.frame), MainScreenWidth, G_Iphone6(500/2))];
+    //
+    [self.contentView addSubview:_PhotoView];
 }
 
 -(UILabel *)myTrip_text
@@ -121,20 +98,43 @@
     self.myTrip_datatime.frame = CGRectMake(CGRectGetWidth(self.frame)-CGRectGetWidth(self.myUser_Name.frame)+10, CGRectGetMinY(self.myUser_Name.frame), CGRectGetWidth(self.myUser_Name.frame) , CGRectGetHeight(self.myUser_Name.frame));
     
     self.myTrip_name.frame = CGRectMake(CGRectGetMinX(self.myUser_Name.frame) , CGRectGetMaxY(self.myUser_Name.frame)+10, CGRectGetWidth(self.frame)-CGRectGetWidth(self.myAvatar.frame)-5, CGRectGetHeight(self.myUser_Name.frame));
-    self.firstCollectionVC.view.frame =CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)/3);
-    
-    self.myFirstCollectionView.frame =CGRectMake(0, CGRectGetMaxY(self.myTrip_text.frame), CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)/3);
+//    self.firstCollectionVC.view.frame =CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)/3);
+//    
+//    self.myFirstCollectionView.frame =CGRectMake(0, CGRectGetMaxY(self.myTrip_text.frame), CGRectGetWidth(self.frame), CGRectGetWidth(self.frame)/3);
     
     ;
 }
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+-(void)setModel:(TripModel *)model
+{
+    _model = model;
+    NSInteger imgscount = self.imageUrlArray.count;
+   NSLog(@"url:%@",self.imageUrlArray);
+    NSInteger discount = [GGxTools arraytoint:imgscount];
     
-    // Configure the view for the selected state
+    
+    _PhotoView.size = CGSizeMake(MainScreenWidth, discount);
+    
+     NSMutableArray *array = [NSMutableArray array];
+    for ( G_waypointsModel *s in self.imageUrlArray) {
+        [array addObject:s.photo ];
+        
+    }
+    _PhotoView.photoArray = array;
+    
+    
+   self.myTrip_name.text = _model.name;
+    self.myTrip_datatime.text = _model.datetime;
+    
+    UserModel *user =[[UserModel alloc] init];
+    [user setValuesForKeysWithDictionary: _model.user];
+    self.myUser_Name.text =user.name;
+    [self.myAvatar sd_setImageWithURL:[NSURL URLWithString:user.avatar_l] placeholderImage:[UIImage imageNamed:@"picholder"]];
+    
+    
+    self.myLevel_info_Value.text =[NSString stringWithFormat:@"Lv:%@",[[user.experience valueForKey:@"level_info"] valueForKey:@"value"]];
+    // 自适应高度
+  
+    
 }
 
 @end

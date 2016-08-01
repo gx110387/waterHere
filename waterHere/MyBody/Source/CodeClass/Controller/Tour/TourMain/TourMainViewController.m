@@ -58,15 +58,18 @@
 // by hqx 15-1015 设置controller的视图
 - (void) H_setUpView
 {
-    self.navigationItem.title =@"顺便看看-精彩故事-热门游记";
-   
+    
+//    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage resizeImage:[UIImage imageNamed:@"NaviTitleImg"] withNewSize:CGSizeMake(G_Iphone6(120), G_Iphone6(26))]];
+  
+    self.navigationItem.titleView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"NaviTitleImg"]];
+
        // by hqx 1020 设置轮播图的属性
     self.tourmain.cycleScrollView.infiniteLoop = YES;
     self.tourmain.cycleScrollView.delegate = self;
     self.tourmain.cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleAnimated;
     
     
-    self.tourmain.bottomView.backgroundColor = [UIColor whiteColor];
+    self.tourmain.bottomView.backgroundColor = [UIColor colorWithHexString:@"#F5F8FA"];
     self.tourmain.bottomView.delegate = self;
     self.tourmain.bottomView.dataSource = self;
     [self.tourmain.bottomView registerClass:[TourStoryTableViewCell class] forCellReuseIdentifier:@"cell1"];
@@ -173,7 +176,33 @@
      return self.travelDataArray.count;
 }
 
-
+// by hqx 1016 设置tableView的头视图
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+ 
+    topView.backgroundColor = [UIColor whiteColor];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(G_Iphone6(17), 0, 200, 44)];
+    titleLabel.font = [UIFont systemFontOfSize:15];
+    titleLabel.text = self.titleArr[section];
+    titleLabel.textColor = [UIColor colorWithHexString:@"#333333"];
+    [topView addSubview:titleLabel];
+    if (section == 0) {
+        UIButton *rightButton = [ UIButton buttonwithrightIconBtn:CGRectMake(MainScreenWidth - 80, 0, 80, 44) font:11 image:@"G_BreakGrayImg" title:@"查看全部" imageInteger:70 titleColor:[UIColor colorWithHexString:@"#9F9F9F"] backgroundColor:[UIColor whiteColor]];
+ 
+      [topView addSubview:rightButton];
+        [rightButton addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
+ 
+            }
+    
+    
+    return topView;
+    
+}
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
@@ -204,75 +233,17 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 320;
+        return 252+10+10+10;
     }
     else
     {
-        return (self.view.frame.size.height - 120) / 2;
+        return G_Iphone6(176+10);
     }
 }
 
 
-- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 40;
-}
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return [NSString stringWithFormat:@"每日精选故事"];
-    }
-    else
-    {
-        return  [NSString stringWithFormat:@"精选游记和专题"];
-    }
-    
-}
-
-
-// by hqx 1016 设置tableView的头视图
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
-    UILabel *leftLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 10, 28)];
-    leftLabel.backgroundColor = [UIColor colorWithRed:0.114 green:1.000 blue:0.004 alpha:1.000];
-    
-    [topView addSubview:leftLabel];
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(leftLabel.frame) + 10, CGRectGetMinY(leftLabel.frame), 200, 30)];
-    titleLabel.text = self.titleArr[section];
-    [topView addSubview:titleLabel];
-    if (section == 0) {
-        UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        rightButton.frame = CGRectMake(CGRectGetMaxX(topView.frame) - 60, CGRectGetMinY(leftLabel.frame), 40, CGRectGetHeight(leftLabel.frame));
-        [rightButton setTitle:@"全部" forState:UIControlStateNormal];
-        [topView addSubview:rightButton];
-        [rightButton addTarget:self action:@selector(rightAction) forControlEvents:UIControlEventTouchUpInside];
-        [rightButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        UIImageView *allImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"G_breakButton.png"]];
-        allImage.frame = CGRectMake(CGRectGetMaxX(rightButton.frame) , CGRectGetMinY(rightButton.frame) + 6, 10, 15);
-        [topView addSubview:allImage];
-    }
-    
-    
-    return topView;
-    
-}
-
-
-// by hqx 1017 button右按钮事件 进行页面的跳转
-- (void) rightAction
-{
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    StoryCollectionViewController *story = [[StoryCollectionViewController alloc]initWithCollectionViewLayout:flowLayout];
-    UINavigationController *storyN = [[UINavigationController alloc]initWithRootViewController:story];
-    flowLayout.itemSize = CGSizeMake((self.view.frame.size.width - 40) / 2, 220);
-    [self.navigationController presentViewController:storyN animated:YES completion:^{
-        
-    }];
-}
 
 
 // by hqx 1019 tableViewCell的点击事件
@@ -287,12 +258,23 @@
     tour.model = [[TravelNoteModel alloc]init];
     tour.title = model.name;
     tour.model = model;
-    UINavigationController *tourN = [[UINavigationController alloc]initWithRootViewController:tour];
-    [self.navigationController presentViewController:tourN animated:YES completion:^{
-        
-    }];
-    
+   
+    [self.navigationController pushViewController:tour animated:YES];
 }
+// by hqx 1017 button右按钮事件 进行页面的跳转
+- (void) rightAction
+{
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
+   
+    StoryCollectionViewController *story = [[StoryCollectionViewController alloc]initWithCollectionViewLayout:flowLayout];
+
+    flowLayout.itemSize = CGSizeMake(G_Iphone6(164), G_Iphone6(202+10+43));
+    flowLayout.sectionInset = UIEdgeInsetsMake(10, 17, 10, 17);
+
+    
+    [self.navigationController pushViewController:story animated:YES];
+}
+
 
 
 #pragma mark by hqx 15-1015 设置UIControllerView的各个代理函数
@@ -317,7 +299,7 @@
     }
     
     StoryModel *model = self.storyArr[indexPath.row];
-    cell.backgroundColor = [UIColor colorWithRed:0.855 green:1.000 blue:0.856 alpha:1.000];
+//    cell.backgroundColor = [UIColor colorWithRed:0.855 green:1.000 blue:0.856 alpha:1.000];
     [cell getValueFromStoryModel:model];
     cell.layer.cornerRadius = 8;
     return cell;
@@ -330,10 +312,7 @@
     StoryModel *model = self.storyArr[indexPath.row];
     story.model = [[StoryModel alloc]init];
     story.model = model;
-    UINavigationController *storyN = [[UINavigationController alloc]initWithRootViewController:story];
-//    [self.navigationController presentViewController:storyN animated:NO completion:^{
-//        
-//    }];
+   
     [self.navigationController pushViewController:story animated:YES];
 }
 

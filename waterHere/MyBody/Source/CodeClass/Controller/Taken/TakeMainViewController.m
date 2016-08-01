@@ -22,40 +22,30 @@
 @implementation TakeMainViewController
 -(void)viewWillAppear:(BOOL)animated
 {
-    
-    
-     [self showTabBar];
+     
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title=@"特价~";
+//     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage resizeImage:[UIImage imageNamed:@"NaviTitleImg"] withNewSize:CGSizeMake(G_Iphone6(120), G_Iphone6(26))]];
+        self.navigationItem.titleView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"NaviTitleImg"]];
     _menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _menuBtn.frame = CGRectMake(0, 0, 40, 24);
     //[menuBtn setBackgroundImage:[UIImage imageNamed:@"menu"] forState:UIControlStateNormal];
     [_menuBtn setTitle:@"北京" forState:UIControlStateNormal];
     [_menuBtn addTarget:self action:@selector(open:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_menuBtn];
+    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithCustomView:_menuBtn];
     
     [self.tableView registerClass:[TakeTableViewCell class] forCellReuseIdentifier:@"cell"];
-    self.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-    ;
+    self.tableView.backgroundColor = GHbgWhiteColor;
+    
     self.C_dataArray = [[NSMutableArray alloc]init];
     
     self.c_city = @"%E5%8C%97%E4%BA%AC";
     
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    
-    self.tableView.backgroundColor = [UIColor whiteColor];
-    
-
-    
-    [self C_setupRefresh];
-    
-    
-    
    
     
-    
+    [self C_setupRefresh];
     [self reloadInputViews];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -200,44 +190,7 @@
     [self.tableView reloadData];
     
     [self C_getData];
-
-//    self.C_dataArray = [NSMutableArray array];
-//    
-//    
-//    NSString *c_url = [NSString stringWithFormat:@"http://api.breadtrip.com/hunter/products/more/?city_name=%@&start=0",_c_city];
-//    
-//    //NSLog(@"%@",c_url);
-//    NSURL *url = [NSURL URLWithString:c_url];
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//        
-//        NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-//        NSArray *arr = [dict valueForKey:@"product_list"];
-//        
-//        
-//        //NSInteger Pd = [arr setValue:self forKey:@"product_"];
-//        
-//        
-//        
-//        for (NSDictionary *dict in arr) {
-//            Product *taken = [[Product alloc] init];
-//            [taken setValuesForKeysWithDictionary:dict];
-//            NSDictionary *d = [dict objectForKey:@"user"];
-//            [taken setValuesForKeysWithDictionary:d];
-//            
-//            
-//            
-//            _PVC.pid = [dict objectForKey:@"product_id"];
-//            
-//            
-//            [self.C_dataArray addObject:taken];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.tableView reloadData];
-//            });
-//            
-//        }
-//        
-//    }];
+ 
 
 
 }
@@ -299,15 +252,15 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 1;
+ 
+    return self.C_dataArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
+ 
     
    // NSLog(@"%ld",self.C_dataArray.count);
-    return self.C_dataArray.count;
+    return 1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cell_id = @"cell";
@@ -323,25 +276,24 @@
     if (self.C_dataArray.count == 0) {
         return cell;
     }
-    cell.Model = self.C_dataArray[indexPath.row];
-    
+    cell.Model = self.C_dataArray[indexPath.section];
+    cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.backgroundColor =[UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
+   
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 340;
+    return G_Iphone6(72+241+68);
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProductViewController *productVC = [[ProductViewController alloc]init];
-    Product *pd = self.C_dataArray[indexPath.row];
+    Product *pd = self.C_dataArray[indexPath.section];
     productVC.pid = pd.product_id;
     //进入下一个controller
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"style:UIBarButtonItemStylePlain target:nil action:nil];
     
     [self.navigationController pushViewController:productVC animated:YES];
     
@@ -350,29 +302,14 @@
     //self.hidesBottomBarWhenPushed = YES;
     
 }
-
-- (void)showTabBar
-
-{
-    if (self.tabBarController.tabBar.hidden == NO)
-    {
-        return;
-    }
-    UIView *contentView;
-    if ([[self.tabBarController.view.subviews objectAtIndex:0] isKindOfClass:[UITabBar class]])
-        
-        contentView = [self.tabBarController.view.subviews objectAtIndex:1];
-    
-    else
-        
-        contentView = [self.tabBarController.view.subviews objectAtIndex:0];
-    contentView.frame = CGRectMake(contentView.bounds.origin.x, contentView.bounds.origin.y,  contentView.bounds.size.width, contentView.bounds.size.height - self.tabBarController.tabBar.frame.size.height);
-    
-    self.tabBarController.tabBar.hidden = NO;
-    
-    
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 5;
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 5;
+}
+ 
 - (void)C_setupRefresh
 
 {

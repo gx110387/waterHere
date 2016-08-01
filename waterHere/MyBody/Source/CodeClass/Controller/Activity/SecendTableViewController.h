@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SecendTableViewController : UITableViewController
+@interface SecendTableViewController : UIViewController
 
 @end

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 @class FirstCollectionViewController;
+@class GHMyPhotoView;
+@class TripModel;
 @interface TripsTableViewCell : UITableViewCell
 
 
@@ -17,10 +19,13 @@
 @property(nonatomic,strong)UILabel *myTrip_name; //旅游地址
 @property(nonatomic,strong)UILabel *myTrip_datatime; // 时间
 @property(nonatomic,strong)UILabel *myTrip_text; // 内容
-@property(nonatomic,strong)FirstCollectionViewController *firstCollectionVC;
-@property(nonatomic,strong)UIView *myFirstCollectionView;
+//@property(nonatomic,strong)FirstCollectionViewController *firstCollectionVC;
+//@property(nonatomic,strong)UIView *myFirstCollectionView;
 @property(nonatomic,strong)NSArray * imageUrlArray;
 @property(nonatomic,strong)NSString *id1;
+@property(nonatomic,assign)TripModel *model;
+
+@property(nonatomic,strong)GHMyPhotoView *PhotoView;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier WithUrlArray  :(NSArray *)imageUrlArray  id1 :(NSString *)id1;
 

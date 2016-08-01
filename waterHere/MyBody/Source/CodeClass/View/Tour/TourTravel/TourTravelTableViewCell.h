@@ -14,7 +14,7 @@
 
 @property (nonatomic,strong) UILabel *titleLabel;
 
-@property (nonatomic,strong) UILabel *tagLabel;
+//@property (nonatomic,strong) UILabel *tagLabel;
 
 @property (nonatomic,strong) UILabel *timeLabel;
 
@@ -29,6 +29,8 @@
 @property (nonatomic,strong) UILabel *userName;
 
 @property (nonatomic,strong) UIView* fontView;
+
+@property(nonatomic,strong)UIImageView *bgImg;
 
 - (void) getValueFromTravelNote:(TravelNoteModel *)model;
 

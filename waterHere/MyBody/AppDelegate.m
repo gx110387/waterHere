@@ -11,7 +11,7 @@
 #import <AVOSCloud/AVOSCloud.h>
 #import "UIViewController+Swizzled.h"
 @interface AppDelegate ()
-@property (nonatomic,strong)UIAlertView *alertView;
+
 @end
 
 @implementation AppDelegate
@@ -30,7 +30,7 @@
     [self.window makeKeyAndVisible];
    //SWIZZ_IT;
     //添加window的根视图控制器，UITabBarController
-    RootTabBarController * tabBarVC = [[RootTabBarController alloc] init];
+    HWTabBarViewController * tabBarVC = [[HWTabBarViewController alloc] init];
     self.window.rootViewController = tabBarVC;
     
     [UMSocialData setAppKey:@"5629ed3167e58e76f3000cc9"];
@@ -69,27 +69,17 @@
     //    NSLog(@"%d",([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable));
     
     if (status == NotReachable) {
-        self.alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"当前网络已断开" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
-        [self.alertView show];
+        [AlertShow alertShowWithContent:@"当前网络已断开" Seconds:3];
+        
     }else if(status == ReachableViaWWAN){
+         [AlertShow alertShowWithContent:@"正在使用移动网络,是否允许观看视频" Seconds:3];
         
-        self.alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"正在使用移动网络,是否允许观看视频" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
-        
-        [self.alertView show];
     }else if(status == ReachableViaWiFi){
-        
-        self.alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"正在使用Wifi网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
-        [self.alertView show];
-    }
-    [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(dismissAlertView) userInfo:nil repeats:YES];
-    
-}
+        [AlertShow alertShowWithContent:@"正在使用Wifi网络" Seconds:3];
 
+          }
+   }
 
-- (void)dismissAlertView
-{
-    [self.alertView dismissWithClickedButtonIndex:0 animated:YES];
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

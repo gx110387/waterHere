@@ -8,23 +8,39 @@
 
 #import "DesTripsSectionSecondTableViewController.h"
 
-@interface DesTripsSectionSecondTableViewController ()
+@interface DesTripsSectionSecondTableViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+@property(nonatomic,strong)UICollectionView *collectionView;
+
 @property(nonatomic,strong)NSMutableArray *G_getDataArr;
 @property(nonatomic,strong)DestinationDailViewController *destinationDilVc;
 @property (nonatomic,retain) MBProgressHUD * hud;
 @end
 
 @implementation DesTripsSectionSecondTableViewController
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
+ 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.G_getDataArr = [NSMutableArray array];
-    self.tableView.backgroundColor  = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-     //[self.tableView registerClass:[DesTripsSectonSecondTableViewCell class] forCellReuseIdentifier:@"cell"];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+   
+    
+    UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
+    
+    flow.itemSize = CGSizeMake(G_Iphone6(165),G_Iphone6(168+68));
+    flow.minimumInteritemSpacing = 5;
+    flow.minimumLineSpacing =7;
+    flow.scrollDirection = UICollectionViewScrollDirectionVertical;
+    flow.sectionInset = UIEdgeInsetsMake(10, 15, 10, 15);
+    
+    
+    
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, MainScreenWidth, MainScreenHeight-44-64) collectionViewLayout:flow];
+    self.collectionView.delegate =self;
+    self.collectionView.dataSource = self;
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    [self.collectionView registerClass:[ActivityTableViewCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.view addSubview:self.collectionView];
+
+    
     [self setupRefresh];
     
   }
@@ -32,18 +48,12 @@
  *  集成刷新控件
  */
 - (void)setupRefresh
-
 {
+     [self.collectionView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRereshing) dateKey:@"table"];
+     [self.collectionView.header beginRefreshing];
     
-    
-    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRereshing) dateKey:@"table"];
-    
-    [self.tableView.header beginRefreshing];
-    
-    
-    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
-    
-    
+    [self.collectionView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
+  
 }
 
 #pragma mark 开始进入刷新状态
@@ -55,8 +65,8 @@
     [[G_getDestinaData shareGetDestinData ]G_getTripsPosition:self.G_GountyName type:self.G_type forwsrdNum:0 count:20 passValue:^(NSMutableArray *array) {
         self.G_getDataArr = array;
        // NSLog(@"-----%@------",array);
-        [self.tableView reloadData];
-        [self.tableView. header endRefreshing];
+        [self.collectionView reloadData];
+        [self.collectionView. header endRefreshing];
 
     }];
     
@@ -71,8 +81,8 @@
     [[G_getDestinaData shareGetDestinData ]G_getTripsPosition:self.G_GountyName  type:self.G_type forwsrdNum:self.G_getDataArr.count count:20 passValue:^(NSMutableArray *array) {
         
         [self.G_getDataArr addObjectsFromArray: array];
-        [self.tableView reloadData];
-        [self.tableView.footer endRefreshing];
+        [self.collectionView reloadData];
+        [self.collectionView.footer endRefreshing];
         
     }];
     
@@ -82,71 +92,43 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+ 
+#pragma mark - <UICollectionViewDataSource>
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    // Return the number of sections.
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.G_getDataArr.count;
+    
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    // Return the number of rows in the section.
-    return 1;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    DesTripsSectonSecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
-    if (cell == nil) {
-        cell = [[DesTripsSectonSecondTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        
-            }
-    DestinationModel *destin = self.G_getDataArr[indexPath.section];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.imageView.layer.masksToBounds = YES;
-    [cell.myImage sd_setImageWithURL:[NSURL URLWithString:destin.cover_s] placeholderImage:[UIImage imageNamed:@"picholder"]];
-    cell.myNameLabel.text = destin.name;
-    cell.myRatingLabel.text = [NSString stringWithFormat:@"评分:%@~// %@点评",destin.rating,destin.rating_users];
-    cell.myDescriptionLabel.text = destin.descript;
-    cell.myVisited_count.text = [NSString stringWithFormat:@"%@ 人去过~",destin.visited_count];
+    ActivityTableViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    if (self.G_getDataArr.count == 0) {
+        return cell;
+    }
+    NearModel *model = self.G_getDataArr[indexPath.row];
+    [cell getValueFromNearModel:model];
     
     
-
-
     return cell;
 }
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-     DestinationModel *d = self.G_getDataArr[indexPath.section];
+    
+    NearModel *model = self.G_getDataArr[indexPath.row];
     self.destinationDilVc  = [[DestinationDailViewController alloc] init];
     
     [self p_setupProgressHud];
-   
-   //  self.destinationDilVc.id1 = d.id1;
-    self.destinationDilVc.G_imageURL = d.cover_route_map_cover;
-    NSLog(@"%@",d.id1);
-    [self G_getMothData:d.type id:d.id1];
-
-    NSLog(@"%ld ====%ld",indexPath.section,indexPath.row);
+    self.destinationDilVc.G_imageURL = model.cover_route_map_cover;
+    [self G_getMothData:model.type id:model.ID];
+    NSLog(@"%@===%@",model.type,model.ID);
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-   
-    if (CGRectGetHeight(self.view.bounds)/3.5 < 180) {
-        return 180;
-    }else
-    {
-        return CGRectGetHeight(self.view.bounds)/3.5;
-    }
-    
-    
-    }
+
+
+
+
+
 - (void)p_setupProgressHud
 {
     self.hud = [[MBProgressHUD alloc] initWithView:self.view] ;

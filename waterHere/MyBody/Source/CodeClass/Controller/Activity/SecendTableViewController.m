@@ -8,7 +8,10 @@
 
 #import "SecendTableViewController.h"
 #import <CoreLocation/CoreLocation.h>
-@interface SecendTableViewController ()<CLLocationManagerDelegate>
+@interface SecendTableViewController ()<CLLocationManagerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+
+@property(nonatomic,strong)UICollectionView *collectionView;
+
 
 @property (nonatomic,retain) MBProgressHUD * hud;
 // 定位管理类
@@ -29,11 +32,25 @@
 @implementation SecendTableViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
     
-    [self.tableView registerClass:[ActivityTableViewCell class] forCellReuseIdentifier:@"cell"];
+     flow.itemSize = CGSizeMake(G_Iphone6(165),G_Iphone6(168+68));
+    flow.scrollDirection = UICollectionViewScrollDirectionVertical;
+    flow.minimumInteritemSpacing = 5;
+    flow.minimumLineSpacing =7;
+    flow.sectionInset = UIEdgeInsetsMake(10, 15, 10, 15);
+    
+    
+    
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, MainScreenWidth, MainScreenHeight-44-64) collectionViewLayout:flow];
+    self.collectionView.delegate =self;
+    self.collectionView.dataSource = self;
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    [self.collectionView registerClass:[ActivityTableViewCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.view addSubview:self.collectionView];
+    
     [self H_distant];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     [self H_setupRefresh];
 }
 
@@ -42,15 +59,43 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-   return self.dataArr.count;;
+- (void)H_setupRefresh
+{
+    [self.collectionView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRereshing) dateKey:@"table"];
+    [self.collectionView.header beginRefreshing];
+    [self.collectionView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
+    
 }
+
+#pragma mark 开始进入刷新状态
+- (void)headerRereshing
+{
+    [self H_data];
+    
+}
+
+- (void)footerRereshing
+{
+    
+    [[TourDataTool shareData] getNearDataWithStart:self.dataArr.count category:11 latitude:self.latitude longitude:self.longitude passValue:^(NSDictionary *dict) {
+        
+        NSArray *arr = [dict objectForKey:@"items"];
+        for (NSDictionary *childDict in arr) {
+            NearModel *model = [[NearModel alloc]init];
+            [model setValuesForKeysWithDictionary:childDict];
+            [self.dataArr addObject:model];
+            
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
+        [self.collectionView.footer endRefreshing];
+    }];
+    
+}
+
+
+
 
 
 // by hqx 1023 数据处理
@@ -66,9 +111,9 @@
             [self.dataArr addObject:model];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
+            [self.collectionView reloadData];
         });
-        [self.tableView.header endRefreshing];
+        [self.collectionView.header endRefreshing];
     }];
 }
 
@@ -114,17 +159,18 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return ScreenHeight / 4;
+
+#pragma mark - <UICollectionViewDataSource>
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.dataArr.count;
+    
 }
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ActivityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (cell == nil) {
-        cell = [[ActivityTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    ActivityTableViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    
     if (self.dataArr.count == 0) {
         return cell;
     }
@@ -134,18 +180,22 @@
     
     return cell;
 }
-
-
-// 点击事件
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
+    NSLog(@"%ld====%ld", indexPath.section, indexPath.row);
+    
     NearModel *model = self.dataArr[indexPath.row];
     self.destinationDilVc  = [[DestinationDailViewController alloc] init];
+    
     [self p_setupProgressHud];
     self.destinationDilVc.G_imageURL = model.cover_route_map_cover;
     [self G_getMothData:model.type id:model.ID];
     NSLog(@"%@===%@",model.type,model.ID);
+    
 }
+
 
 #pragma mark 小菊花
 - (void)p_setupProgressHud
@@ -180,76 +230,10 @@
     
 }
 
-- (void)showTabBar
-
-{
-    if (self.tabBarController.tabBar.hidden == NO)
-    {
-        return;
-    }
-    UIView *contentView;
-    if ([[self.tabBarController.view.subviews objectAtIndex:0] isKindOfClass:[UITabBar class]])
-        
-        contentView = [self.tabBarController.view.subviews objectAtIndex:1];
-    
-    else
-        
-        contentView = [self.tabBarController.view.subviews objectAtIndex:0];
-    contentView.frame = CGRectMake(contentView.bounds.origin.x, contentView.bounds.origin.y,  contentView.bounds.size.width, contentView.bounds.size.height - self.tabBarController.tabBar.frame.size.height);
-    
-    self.tabBarController.tabBar.hidden = NO;
-    
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self showTabBar];
-}
 
 
-- (void)H_setupRefresh
 
-{
-    
-    
-    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRereshing) dateKey:@"table"];
-    
-    [self.tableView.header beginRefreshing];
-    
-    
-    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
-    
-    
-}
 
-#pragma mark 开始进入刷新状态
-- (void)headerRereshing
-{
-    [self H_data];
-    
-}
-
-- (void)footerRereshing
-{
-    
-    [[TourDataTool shareData] getNearDataWithStart:self.dataArr.count category:11 latitude:self.latitude longitude:self.longitude passValue:^(NSDictionary *dict) {
-        
-        NSArray *arr = [dict objectForKey:@"items"];
-        for (NSDictionary *childDict in arr) {
-            NearModel *model = [[NearModel alloc]init];
-            [model setValuesForKeysWithDictionary:childDict];
-            [self.dataArr addObject:model];
-            
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-        [self.tableView.footer endRefreshing];
-    }];
-    
-}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

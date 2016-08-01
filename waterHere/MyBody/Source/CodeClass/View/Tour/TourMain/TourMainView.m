@@ -25,7 +25,7 @@
 - (SDCycleScrollView *)cycleScrollView
 {
     if (_cycleScrollView == nil) {
-        self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight / 3.3) imageURLStringsGroup:nil];
+        self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, MainScreenWidth, G_Iphone6(200)) imageURLStringsGroup:nil];
         [self.backView addSubview:_cycleScrollView];
         self.cycleScrollView.placeholderImage = [UIImage imageNamed:pich];
         self.cycleScrollView.autoScrollTimeInterval = 2;

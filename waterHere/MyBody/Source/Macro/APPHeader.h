@@ -16,9 +16,39 @@
 
 #define ImageHight 200.0f
 
-#import "AlertShow.h"
+#define CustomerColor(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
+#define CustomerColorOfAlpha(r,g,b,x) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:x]
+#define MainScreenHeight [UIScreen mainScreen ].bounds.size.height
+#define MainScreenWidth  [UIScreen mainScreen ].bounds.size.width
+#define G_Iphone6(num) Adapt_IPHONE6_scaleV(num)
 
-#import "RootTabBarController.h"
+#define GHbgWhiteColor CustomerColor(241, 239, 245)
+
+#define Tools [G_getDestinaData shareGetDestinData]
+
+
+#define  gwidth  CGRectGetWidth(self.frame)
+#define  gheight CGRectGetHeight(self.frame)
+#define  G_picholder [UIImage imageNamed:@"picholder"]
+///30
+#define  kFontSize   Tools.cgkFontSize
+///35
+#define  kStarWidthAndHeight Tools.cgkStarWidthAndHeight
+
+#define XcodeAppVersion [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
+
+#if DEBUG
+#define DoLog(...)  NSLog(__VA_ARGS__)
+#define DDLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+#else
+
+#define DoLog(...)
+#define DDLog(xx, ...)
+
+#endif
+#import "AlertShow.h"
+ 
 
 #import "ActivityMainController.h"
 
@@ -39,7 +69,7 @@
 
 #import "DestinationTripsViewController.h"
 
-#import "FirstCollectionViewController.h"
+ 
 
 #import "DestinationSectionViewController.h"
 
@@ -54,7 +84,7 @@
 
 #import "restartPsdViewController.h"
 
-#import "LoginViewController.h"
+ 
 
 #import "AboutUsViewController.h"
 
@@ -119,7 +149,7 @@
 //-------------controller--------------------
 
 
-#import "RootTabBarController.h"
+
 
 #import "ActivityMainController.h"
 
@@ -167,6 +197,8 @@
 #import "MainTableViewCell.h"
 
 #import "CollectionViewCell.h"
+
+#import "CollectionViewCell1.h"
 
 #import "SectionZeroTableViewCell.h"
 

@@ -14,16 +14,12 @@
 @end
 
 @implementation DesTripsSectionFirstTableViewController
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
+ 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.G_dataArr = [NSMutableArray array];
     
-    self.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-    
+    self.view.backgroundColor= [UIColor whiteColor];
     [self.tableView registerClass:[DesTripsSectionFirstTableViewCell class] forCellReuseIdentifier:@"cell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self setupRefresh];
@@ -32,18 +28,10 @@
  *  集成刷新控件
  */
 - (void)setupRefresh
-
 {
-    
-    
     [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRereshing) dateKey:@"table"];
-    
     [self.tableView.header beginRefreshing];
-    
-    
     [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
-    
-    
 }
 
 #pragma mark 开始进入刷新状态
@@ -126,17 +114,27 @@
     tour.model = [[TravelNoteModel alloc]init];
     DestirpsSectionFirst *model = self.G_dataArr[indexPath.section];
     tour.model.ID = model.id1;
+      tour.title = model.name;
     NSLog(@"%@",model.id1);
-    UINavigationController *tourN = [[UINavigationController alloc]initWithRootViewController:tour];
-    [self.navigationController presentViewController:tourN animated:YES completion:^{
-        
-    }];
-    
+ 
+    [self.navigationController pushViewController:tour animated:YES];
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGRectGetHeight(self.view.frame)/3.5;
+    return G_Iphone6(176);
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return G_Iphone6(5);
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return G_Iphone6(10);
+    }else{
+    return G_Iphone6(5);
+    }
 }
 -(NSString *)setTimered:(NSInteger)sender
 {

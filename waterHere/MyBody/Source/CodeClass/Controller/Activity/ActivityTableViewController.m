@@ -8,7 +8,10 @@
 
 #import "ActivityTableViewController.h"
 #import <CoreLocation/CoreLocation.h>
-@interface ActivityTableViewController ()<CLLocationManagerDelegate>
+@interface ActivityTableViewController ()<CLLocationManagerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+
+@property(nonatomic,strong)UICollectionView *collectionView;
+
 @property (nonatomic,retain) MBProgressHUD * hud;
 // 定位管理类
 @property (nonatomic,strong) CLLocationManager *manger;
@@ -22,6 +25,7 @@
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
 
+
 @property(nonatomic,strong)DestinationDailViewController *destinationDilVc;
 
 @end
@@ -31,9 +35,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[ActivityTableViewCell class] forCellReuseIdentifier:@"cell"];
-    [self H_distant];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
+    
+    flow.itemSize = CGSizeMake(G_Iphone6(165),G_Iphone6(168+68));
+    flow.minimumInteritemSpacing = 5;
+    flow.minimumLineSpacing =7;
+    flow.scrollDirection = UICollectionViewScrollDirectionVertical;
+    flow.sectionInset = UIEdgeInsetsMake(10, 15, 10, 15);
+    
+    
+    
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, MainScreenWidth, MainScreenHeight-44-64) collectionViewLayout:flow];
+    self.collectionView.delegate =self;
+    self.collectionView.dataSource = self;
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    [self.collectionView registerClass:[ActivityTableViewCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.view addSubview:self.collectionView];
+
+        [self H_distant];
+ 
     [self H_setupRefresh];
 }
 
@@ -42,45 +62,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-   
-    return self.dataArr.count;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ActivityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (cell == nil) {
-        cell = [[ActivityTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
-    if (self.dataArr.count == 0) {
-        return cell;
-    }
-    NearModel *model = self.dataArr[indexPath.row];
-    [cell getValueFromNearModel:model];
+- (void)H_setupRefresh
+{
+    [self.collectionView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRereshing) dateKey:@"table"];
+    [self.collectionView.header beginRefreshing];
+    [self.collectionView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
     
     
-    return cell;
 }
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self showTabBar];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return ScreenHeight / 4;
-}
-
-
 // by hqx 1023 数据处理
 - (void) H_data
 {
@@ -93,15 +82,76 @@
             NearModel *model = [[NearModel alloc]init];
             [model setValuesForKeysWithDictionary:childDict];
             [self.dataArr addObject:model];
-          
+            
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-        [self.tableView.header endRefreshing];
+        [self.collectionView reloadData];
+        [self.collectionView.header endRefreshing];
     }];
 }
 
+
+#pragma mark 开始进入刷新状态
+- (void)headerRereshing
+{
+    [self H_data];
+    
+}
+
+- (void)footerRereshing
+{
+    
+    [[TourDataTool shareData] getNearDataWithStart:self.dataArr.count category:0 latitude:self.latitude longitude:self.longitude passValue:^(NSDictionary *dict) {
+        
+        NSArray *arr = [dict objectForKey:@"items"];
+        for (NSDictionary *childDict in arr) {
+            NearModel *model = [[NearModel alloc]init];
+            [model setValuesForKeysWithDictionary:childDict];
+            [self.dataArr addObject:model];
+            
+        }
+        
+        [self.collectionView reloadData];
+        
+        [self.collectionView.footer endRefreshing];
+    }];
+    
+}
+
+#pragma mark - <UICollectionViewDataSource>
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.dataArr.count;
+    
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    ActivityTableViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    
+        if (self.dataArr.count == 0) {
+            return cell;
+        }
+        NearModel *model = self.dataArr[indexPath.row];
+        [cell getValueFromNearModel:model];
+        
+
+    return cell;
+}
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    
+    NSLog(@"%ld====%ld", indexPath.section, indexPath.row);
+    
+    NearModel *model = self.dataArr[indexPath.row];
+        self.destinationDilVc  = [[DestinationDailViewController alloc] init];
+    
+        [self p_setupProgressHud];
+        self.destinationDilVc.G_imageURL = model.cover_route_map_cover;
+        [self G_getMothData:model.type id:model.ID];
+        NSLog(@"%@===%@",model.type,model.ID);
+
+}
 
 // by hqx 1023 定位处理
 - (void) H_distant
@@ -137,19 +187,7 @@
     [self H_data];
 }
 
-// 点击事件
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NearModel *model = self.dataArr[indexPath.row];
-    self.destinationDilVc  = [[DestinationDailViewController alloc] init];
-    
-    [self p_setupProgressHud];
-    self.destinationDilVc.G_imageURL = model.cover_route_map_cover;
-   [self G_getMothData:model.type id:model.ID];
-    NSLog(@"%@===%@",model.type,model.ID);
-}
-
-#pragma mark 小菊花
+//#pragma mark 小菊花
 - (void)p_setupProgressHud
 {
     self.hud = [[MBProgressHUD alloc] initWithView:self.view] ;
@@ -183,69 +221,6 @@
     
 }
 
-- (void)showTabBar
-
-{
-    if (self.tabBarController.tabBar.hidden == NO)
-    {
-        return;
-    }
-    UIView *contentView;
-    if ([[self.tabBarController.view.subviews objectAtIndex:0] isKindOfClass:[UITabBar class]])
-        
-        contentView = [self.tabBarController.view.subviews objectAtIndex:1];
-    
-    else
-        
-        contentView = [self.tabBarController.view.subviews objectAtIndex:0];
-    contentView.frame = CGRectMake(contentView.bounds.origin.x, contentView.bounds.origin.y,  contentView.bounds.size.width, contentView.bounds.size.height - self.tabBarController.tabBar.frame.size.height);
-    
-    self.tabBarController.tabBar.hidden = NO;
-    
-    
-}
-
-
-- (void)H_setupRefresh
-
-{
-    
-    
-    [self.tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(headerRereshing) dateKey:@"table"];
-    
-    
-    
-    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(footerRereshing)];
-    
-    
-}
-
-#pragma mark 开始进入刷新状态
-- (void)headerRereshing
-{
-    [self H_data];
-    
-}
-
-- (void)footerRereshing
-{
-    
-    [[TourDataTool shareData] getNearDataWithStart:self.dataArr.count category:0 latitude:self.latitude longitude:self.longitude passValue:^(NSDictionary *dict) {
-        
-            NSArray *arr = [dict objectForKey:@"items"];
-            for (NSDictionary *childDict in arr) {
-                NearModel *model = [[NearModel alloc]init];
-                [model setValuesForKeysWithDictionary:childDict];
-                [self.dataArr addObject:model];
-                
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
-            });
-            [self.tableView.footer endRefreshing];
-        }];
-    
-}
 
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -264,48 +239,6 @@
     [super viewWillDisappear:YES];
     [_manger stopUpdatingLocation];
 }
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

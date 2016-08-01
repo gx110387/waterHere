@@ -17,9 +17,7 @@
 
 @interface restartPsdView : UIView
 
-@property(nonatomic,strong)UILabel *nameLabel;
-@property(nonatomic,strong)UILabel *passLabel;
-@property(nonatomic,strong)UILabel *passagainLabel;
+ 
 @property(nonatomic,strong)UITextField *nameTextField;
 @property(nonatomic,strong)UITextField *passTextField;
 @property(nonatomic,strong)UITextField *passaginTextField;

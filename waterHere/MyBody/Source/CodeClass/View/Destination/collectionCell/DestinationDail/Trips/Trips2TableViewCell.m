@@ -27,7 +27,7 @@
 {
     //头像
     self.myAvatar =[[UIImageView alloc] init];
-    self.myAvatar.frame = CGRectMake(0, 50, 60, 60);
+    self.myAvatar.frame = CGRectMake(0, 10, 60, 60);
     self.myAvatar.backgroundColor = [UIColor cyanColor];
     self.myAvatar.layer.cornerRadius = 30;
     self.myAvatar.layer.masksToBounds = YES;
@@ -87,7 +87,7 @@
 -(void)layoutSubviews
 {
      [super layoutSubviews];
-    self.myAvatar.frame = CGRectMake(0, 50, 60, 60);
+    self.myAvatar.frame = CGRectMake(0, 10, 60, 60);
     
     self.myUser_Name.frame = CGRectMake(CGRectGetMaxX(self.myAvatar.frame)+5, CGRectGetMinY(self.myAvatar.frame), 100, 20);
     

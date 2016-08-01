@@ -13,72 +13,62 @@
 @end
 
 @implementation ActivityMainController
--(void)viewWillAppear:(BOOL)animated
-{
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self showTabBar];
-    
-}
-- (void)showTabBar
 
-{
-    if (self.tabBarController.tabBar.hidden == NO)
-    {
-        return;
-    }
-    UIView *contentView;
-    if ([[self.tabBarController.view.subviews objectAtIndex:0] isKindOfClass:[UITabBar class]])
-        
-        contentView = [self.tabBarController.view.subviews objectAtIndex:1];
-    
-    else
-        
-        contentView = [self.tabBarController.view.subviews objectAtIndex:0];
-    contentView.frame = CGRectMake(contentView.bounds.origin.x, contentView.bounds.origin.y,  contentView.bounds.size.width, contentView.bounds.size.height - self.tabBarController.tabBar.frame.size.height);
-    
-    self.tabBarController.tabBar.hidden = NO;
-    
-    
-}
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    DDLog(@"%@",self.navigationController.viewControllers);
+//    [super viewWillAppear:animated];
+//   
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
+//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@""] forBarMetrics:UIBarMetricsDefault];
+//    [[[self.navigationController.navigationBar subviews] objectAtIndex:0] setAlpha:0];
+//
+//}
+//-(void)viewWillDisappear:(BOOL)animated
+//{
+//    DDLog(@"");
+//    [self.navigationController setNavigationBarHidden:NO animated:NO];
+//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"NaviBarBg"] forBarMetrics:UIBarMetricsDefault];
+//    
+//}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+//      self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage resizeImage:[UIImage imageNamed:@"NaviTitleImg"] withNewSize:CGSizeMake(G_Iphone6(120), G_Iphone6(26))]];
+        self.navigationItem.titleView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"NaviTitleImg"]];
+    
+     DDLog(@"");
     // Do any additional setup after loading the view.
-    self.navigationItem.title =@"看看附近好玩哒~";
-    ActivityTableViewController *oneViewController = [[ActivityTableViewController alloc] init];
+        ActivityTableViewController *oneViewController = [[ActivityTableViewController alloc] init];
     oneViewController.title = @"全部";
-    oneViewController.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
+   
 
     
     SecendTableViewController *twoViewController = [[SecendTableViewController alloc] init];
     twoViewController.title = @"景点";
-    twoViewController.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-
+    
     
     ThirdTableViewController *threeViewController = [[ThirdTableViewController alloc] init];
     threeViewController.title = @"住宿";
-    threeViewController.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-
+   
     
     FourTableViewController *fourViewController = [[FourTableViewController alloc] init];
     fourViewController.title = @"餐厅";
-    fourViewController.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-
+   
     
     FiveTableViewController *fiveViewController = [[FiveTableViewController alloc] init];
     fiveViewController.title = @"休闲娱乐";
-    fiveViewController.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-
     
     SixTableViewController *sixViewController = [[SixTableViewController alloc] init];
     sixViewController.title = @"购物";
-    sixViewController.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-
     
     
-    
+  
     SCNavTabBarController *navTabBarController = [[SCNavTabBarController alloc] init];
     navTabBarController.subViewControllers = @[oneViewController, twoViewController, threeViewController, fourViewController, fiveViewController, sixViewController];
-    
+    navTabBarController.navTabBarColor = [ UIColor whiteColor];
+    navTabBarController.navTabBarLineColor =[UIColor colorWithHexString:@"#009FE8"];
     [navTabBarController addParentController:self];
     
 

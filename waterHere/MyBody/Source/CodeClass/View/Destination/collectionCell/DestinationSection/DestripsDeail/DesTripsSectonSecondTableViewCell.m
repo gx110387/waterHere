@@ -21,13 +21,11 @@
 }
 -(void)G_setupView
 {
-    
-    
-  self.backgroundColor  = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
+ 
     
     // 白色背景
     self.myBackgroundView = [[UIView alloc] init];
-    self.myBackgroundView.frame = CGRectMake(20, 0, CGRectGetWidth(self.frame)-40, CGRectGetHeight(self.frame));
+    self.myBackgroundView.frame = CGRectMake(0, 0, MainScreenWidth, 150);
     self.myBackgroundView.layer.cornerRadius = 10;
     self.myBackgroundView.layer.masksToBounds = YES;
     self.myBackgroundView.backgroundColor = [UIColor whiteColor];
@@ -87,42 +85,7 @@
     
 }
 
--(void)layoutSubviews
-{
-    [super layoutSubviews];
-    self.myBackgroundView.frame = CGRectMake(20, 0, CGRectGetWidth(self.frame)-40, CGRectGetHeight(self.frame));
-        // 图片
-    
-    
-    self.myImage.frame = CGRectMake(10, 10, CGRectGetWidth(self.myBackgroundView.frame)/2-20, CGRectGetHeight(self.myBackgroundView.frame)-20);
-    
-    //名字
-    
-    
-    self.myNameLabel.frame = CGRectMake(CGRectGetMaxX(self.myImage.frame)+10, CGRectGetMinY(self.myImage.frame), CGRectGetWidth(self.myBackgroundView.frame)-CGRectGetWidth(self.myImage.frame)-20-5-5, 30);
-   
-    // 评分
-    
-   
-    
-   self.myRatingLabel.frame = CGRectMake(CGRectGetMinX(self.myNameLabel.frame), CGRectGetMaxY(self.myNameLabel.frame)+5, CGRectGetWidth(self.myNameLabel.frame), 20);
-    
-    
-    // 描述
-    
-   
-    
-    self.myDescriptionLabel.frame = CGRectMake(CGRectGetMinX(self.myNameLabel.frame), CGRectGetMaxY(self.myRatingLabel.frame), CGRectGetWidth(self.myRatingLabel.frame), 60);
-    
-    
-    // 去过的数量
-    
-    
-    
-    self.myVisited_count.frame = CGRectMake(CGRectGetMinX(self.myDescriptionLabel.frame), CGRectGetMaxY(self.myImage.frame)-20, CGRectGetWidth(self.myRatingLabel.frame), 20);
-    
-    
-}
+ 
 - (void)awakeFromNib {
     // Initialization code
 }

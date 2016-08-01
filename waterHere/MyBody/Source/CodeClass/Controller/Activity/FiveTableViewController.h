@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FiveTableViewController : UITableViewController
+@interface FiveTableViewController : UIViewController
 
 @end

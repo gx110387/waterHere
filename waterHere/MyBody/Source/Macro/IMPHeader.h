@@ -15,13 +15,16 @@
 #import "SDCycleScrollView.h"
 
 // by hqx 1023 评价星星第三方
-#import "HCSStarRatingView.h"
+//#import "HCSStarRatingView.h"
+#import "AMRatingControl.h"
 
 #import "SCNavTabBarController.h"
 
 #import "SCNavTabBar.h"
 
 #import "SCPopView.h"
+
+#import "SJAvatarBrowser.h"
 
 #import "CommonMacro.h"
 
@@ -40,9 +43,32 @@
 
 #import "DWBubbleMenuButton.h"
 
+#import "UIView+Layout.h"
+
+
 //10-27 gaoxing
 
+#import "UIResponder+Adapt.h"
+
+#import "UIColor+extesons.h"
+
+#import "UIView+Sizes.h"
+
+#import "GGxTools.h"
+
+#import "UIButton+iconBtn.h"
+
+#import "UIImage+Extension.h"
+
+#import "UIBarButtonItem+Extension.h"
+#import "HWNavigationController.h"
+#import "HWTabBarViewController.h"
 
 
+#import "UITextField+Extension.h"
+
+#import "SVProgressHUD.h"
+
+#import "GGxTools.h"
 
 #endif

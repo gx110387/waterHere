@@ -12,9 +12,7 @@
 
 @property (nonatomic,strong) UIImageView *picture;
 
-@property (nonatomic,strong) UILabel *pictureLabel;
-
-@property (nonatomic,strong) UILabel *titleLabel;
+ 
 
 @property (nonatomic,strong) UIImageView *smallPicture;
 

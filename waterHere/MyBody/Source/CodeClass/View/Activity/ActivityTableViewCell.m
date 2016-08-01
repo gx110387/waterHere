@@ -10,105 +10,44 @@
 
 @implementation ActivityTableViewCell
 
-- (UIView *)backView
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    if (_backView == nil) {
-        self.backView = [[UIView alloc]initWithFrame:CGRectMake(20, 5, ScreenWidth - 40, ScreenHeight / 4 - 10)];
-        [self.contentView addSubview:_backView];
-        self.backView.backgroundColor = [UIColor whiteColor];
-        self.backView.layer.cornerRadius = 8;
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupView];
     }
-    return _backView;
+    return self;
 }
-
-
-- (UIImageView *)leftView
+-(void)setupView
 {
-    if (_leftView == nil) {
-        self.leftView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 15, CGRectGetWidth(self.backView.frame) / 3, CGRectGetHeight(self.backView.frame) - 30)];
-        [self.backView addSubview:_leftView];
-    }
-    return _leftView;
-}
-
-
-- (UILabel *)titleLabel
-{
-    if (_titleLabel == nil) {
-        self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.leftView.frame) + 10, CGRectGetMinY(self.leftView.frame), CGRectGetWidth(self.backView.frame) - CGRectGetMaxX(self.leftView.frame) - 20, 20)];
-        [self.backView addSubview:_titleLabel];
-        self.titleLabel.font = [UIFont systemFontOfSize:18];
-    }
-    return _titleLabel;
-}
-
-
-- (HCSStarRatingView *)starView
-{
-    if (_starView == nil) {
-        self.starView = [[HCSStarRatingView alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.titleLabel.frame), CGRectGetMaxY(self.titleLabel.frame) + 10, CGRectGetWidth(self.titleLabel.frame) - 60, 15)];
-        [self.backView addSubview:_starView];
-        self.starView.tintColor = [UIColor redColor];
-    }
-    return _starView;
-}
-
-
-- (UILabel *)commentLabel
-{
-    if (_commentLabel == nil) {
-        self.commentLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.starView.frame) + 10, CGRectGetMinY(self.starView.frame) + 5, 50, 10)];
-        [self.backView addSubview:_commentLabel];
-        self.commentLabel.font = [UIFont systemFontOfSize:13];
-    }
-    return _commentLabel;
-}
-
-
-- (UILabel *)detailLabel
-{
-    if (_detailLabel == nil) {
-        self.detailLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.titleLabel.frame), CGRectGetMaxY(self.starView.frame) + 5, CGRectGetWidth(self.titleLabel.frame), 40)];
-        self.detailLabel.numberOfLines = 0;
-        [self.backView addSubview:_detailLabel];
-        self.detailLabel.font = [UIFont systemFontOfSize:13];
-    }
-    return _detailLabel;
-}
-
-
-- (UILabel *)distantLabel
-{
-    if (_distantLabel == nil) {
-        self.distantLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.titleLabel.frame), CGRectGetMaxY(self.leftView.frame) - 20, CGRectGetWidth(self.detailLabel.frame), 20)];
-        [self.backView addSubview:_distantLabel];
-        self.distantLabel.font = [UIFont systemFontOfSize:13];
-    }
-    return _distantLabel;
-}
-
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-- (void)layoutSubviews
-{
-    if (ScreenHeight < 500) {
-        self.titleLabel.font = [UIFont systemFontOfSize:15];
-        self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.leftView.frame) + 10, CGRectGetMinY(self.leftView.frame), CGRectGetWidth(self.backView.frame) - CGRectGetMaxX(self.leftView.frame) - 20, 15);
-        self.starView.frame = CGRectMake(CGRectGetMinX(self.titleLabel.frame), CGRectGetMaxY(self.titleLabel.frame) + 5, CGRectGetWidth(self.titleLabel.frame) - 60, 10);
-        self.commentLabel.font = [UIFont systemFontOfSize:11];
-        self.commentLabel.frame = CGRectMake(CGRectGetMaxX(self.starView.frame) + 10, CGRectGetMinY(self.starView.frame) , 50, 10);
-        self.detailLabel.frame = CGRectMake(CGRectGetMinX(self.titleLabel.frame), CGRectGetMaxY(self.starView.frame) + 5, CGRectGetWidth(self.titleLabel.frame), 30);
-        self.detailLabel.font = [UIFont systemFontOfSize:11];
-        self.distantLabel.font = [UIFont systemFontOfSize:11];
-    }
+    _leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, G_Iphone6(165), G_Iphone6(168))];
+    [self.contentView addSubview:_leftView];
+    
+    UIView *footerView = [[ UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_leftView.frame), G_Iphone6(165), G_Iphone6(68))];
+    [self.contentView addSubview:footerView];
+    
+    Tools.cgkFontSize = 15;
+    Tools.cgkStarWidthAndHeight = 15;
+    self.starView =  [[AMRatingControl alloc] initWithLocation:CGPointMake(0, 11) emptyImage:[UIImage imageNamed:@"GHHome_Teacher_NoReserveRating"] solidImage:[UIImage imageNamed:@"GHHome_Teacher_ReserveRating"]  andMaxRating:5];
+    [footerView addSubview:self.starView];
+    
+    _commentLabel =[[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.starView.frame)+5,CGRectGetMinY(_starView.frame), G_Iphone6(165)-CGRectGetMaxX(self.starView.frame)-5, 15)];
+    _commentLabel.textColor = [UIColor colorWithHexString:@"#777777"];
+    _commentLabel.font = [UIFont systemFontOfSize:10];
+    [footerView addSubview:_commentLabel];
+    
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_commentLabel.frame), G_Iphone6(165), G_Iphone6(22))];
+    _titleLabel.textColor = [UIColor colorWithHexString:@"#171616"];
+    _titleLabel.font = [UIFont systemFontOfSize:15];
+    [footerView addSubview:_titleLabel];
+    
+    _distantLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_titleLabel.frame), G_Iphone6(165), G_Iphone6(68) -CGRectGetMaxY(_titleLabel.frame))];
+    
+    _distantLabel.textColor = [UIColor colorWithHexString:@"#171616"];
+    _distantLabel.font = [UIFont systemFontOfSize:10];
+    [footerView addSubview:_distantLabel];
+    
+    
 }
 
 
@@ -116,13 +55,15 @@
 
 - (void)getValueFromNearModel:(NearModel *)model
 {
-    self.contentView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
-    [self.leftView sd_setImageWithURL:[NSURL URLWithString:model.cover_s] placeholderImage:[UIImage imageNamed:pich]];
+    
+//    self.contentView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
+ [self.leftView sd_setImageWithURL:[NSURL URLWithString:model.cover_s] placeholderImage:[UIImage imageNamed:pich]];
+    [_starView setRating:model.rating];
     self.titleLabel.text = model.name;
-    self.starView.value = model.rating;
+    
     
     self.commentLabel.text = [NSString stringWithFormat:@"%@点评",model.tips_count];
-    self.detailLabel.text = model.recommended_reason;
+//    self.detailLabel.text = model.recommended_reason;
     if (model.distance < 1) {
         int distant = model.distance * 1000;
         self.distantLabel.text = [NSString stringWithFormat:@"距离%dm / %@人去过",distant,model.visited_count];

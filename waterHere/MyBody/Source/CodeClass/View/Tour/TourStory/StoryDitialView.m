@@ -68,7 +68,7 @@
 - (UITableView *)detialTableView
 {
     if (_detialTableView == nil) {
-        self.detialTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - ScreenHeight / 8) style:UITableViewStylePlain];
+        self.detialTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, MainScreenHeight-64) style:UITableViewStylePlain];
         self.detialTableView.tableHeaderView = self.topView;
         self.detialTableView.tableFooterView = self.bottomView;
         [self addSubview:_detialTableView];

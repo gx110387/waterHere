@@ -60,6 +60,7 @@
         _arrowButton.layer.shadowColor = [UIColor lightGrayColor].CGColor;
         _arrowButton.image = _arrowImage;
         _arrowButton.userInteractionEnabled = YES;
+        
         [self addSubview:_arrowButton];
         [self viewShowShadow:_arrowButton shadowRadius:20.0f shadowOpacity:20.0f];
         
@@ -89,7 +90,7 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue], NAV_TAB_BAR_HEIGHT);
         [button setTitle:_itemTitles[index] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithHexString:@"#4A4A4A"] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(itemPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_navgationTabBar addSubview:button];
         

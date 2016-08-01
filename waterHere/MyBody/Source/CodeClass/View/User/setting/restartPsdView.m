@@ -8,6 +8,10 @@
 
 #import "restartPsdView.h"
 
+
+@interface restartPsdView ()<UITextFieldDelegate>
+
+@end
 @implementation restartPsdView
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -20,72 +24,87 @@
 
 -(void)p_setupView
 {
-    self.backgroundColor = [UIColor whiteColor];
-    //
-    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 80, 30)];
-    // self.loginLabel.backgroundColor = [UIColor cyanColor];
-    self.nameLabel.text = @"用户名:";
-    [self addSubview:_nameLabel];
-    //
-    //
-    self.nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.nameLabel.frame)+20, CGRectGetMinY(self.nameLabel.frame), CGRectGetWidth(self.frame)-CGRectGetWidth(self.nameLabel.frame)-60, CGRectGetHeight(self.nameLabel.frame))];
-    self.nameTextField.placeholder =@"请输入用户名";
-    self.nameTextField.clearsOnBeginEditing = YES;
+    UIImageView *img = [[UIImageView alloc]init];
+    img.image = [UIImage imageNamed:@"UserLogin"];
+    img.frame = CGRectMake(0, 0, MainScreenWidth, MainScreenHeight);
+    [self addSubview:img];
+
+    CGFloat gap = G_Iphone6(48);
+    CGFloat widthgap =MainScreenWidth-G_Iphone6(48*2);
+    CGFloat heightgap = G_Iphone6(41);
+
+   
+    _nameTextField = [ UITextField textFielWithFrame:CGRectMake(gap, 64, widthgap,heightgap) leftImageView:[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 8, 0)]  titleOfPlaceholder:@"userName" font:12 textColor:[UIColor whiteColor] borderColor:CustomerColor(79, 79,79) borderWidth:0.5];
+    _nameTextField.layer.cornerRadius =6;
+    _nameTextField.layer.masksToBounds = YES;
     
-    self.nameTextField.keyboardType =UIKeyboardTypeEmailAddress;
-    self.nameTextField.borderStyle= UITextBorderStyleRoundedRect;
-    self.nameTextField.returnKeyType = UIReturnKeyDone;
     [self addSubview:_nameTextField];
     //
+    _passTextField =   [ UITextField textFielWithFrame:CGRectMake(gap, CGRectGetMaxY(_nameTextField.frame)+10, widthgap,heightgap) leftImageView:[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 8, 0)]  titleOfPlaceholder:@"userName" font:12 textColor:[UIColor whiteColor] borderColor:CustomerColor(79, 79,79) borderWidth:0.5];
+    _passTextField.layer.cornerRadius =6;
+    _passTextField.layer.masksToBounds = YES;
     
-    
-    self.passLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame)+20, CGRectGetWidth(self.nameLabel.frame), CGRectGetHeight(self.nameLabel.frame))];
-    self.passLabel.text =@"旧密码:";
-    // self.loginLabel.backgroundColor = [UIColor cyanColor];
-    [self addSubview:_passLabel];
-    //
-    
-    self.passTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.nameTextField.frame), CGRectGetMinY(self.passLabel.frame), CGRectGetWidth(self.nameTextField.frame), CGRectGetHeight(self.passLabel.frame))];
-    self.passTextField.placeholder =@"请输入密码";
-    self.passTextField.clearsOnBeginEditing = YES;
-    self.passTextField.keyboardType = UIKeyboardTypeNamePhonePad;
-    self.passTextField.borderStyle = UITextBorderStyleRoundedRect;
-    self.passTextField.returnKeyType = UIReturnKeyDone;
     [self addSubview:_passTextField];
     
-    //
+    _passaginTextField =   [ UITextField textFielWithFrame:CGRectMake(gap, CGRectGetMaxY(_passTextField.frame)+10, widthgap,heightgap) leftImageView:[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 8, 0)]  titleOfPlaceholder:@"userName" font:12 textColor:[UIColor whiteColor] borderColor:CustomerColor(79, 79,79) borderWidth:0.5];
+    _passaginTextField.layer.cornerRadius =6;
+    _passaginTextField.layer.masksToBounds = YES;
     
-    self.passagainLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.passLabel.frame), CGRectGetMaxY(self.passLabel.frame)+20, CGRectGetWidth(self.passLabel.frame), CGRectGetHeight(self.passLabel.frame))];
-    self.passagainLabel.text =@"新密码:";
-    // self.loginLabel.backgroundColor = [UIColor cyanColor];
-    [self addSubview:_passagainLabel];
-    //
-    
-    self.passaginTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.passTextField.frame), CGRectGetMinY(self.passagainLabel.frame), CGRectGetWidth(self.passTextField.frame), CGRectGetHeight(self.passagainLabel.frame))];
-    self.passaginTextField.placeholder =@"请输入密码";
-    self.passaginTextField.clearsOnBeginEditing = YES;
-    self.passaginTextField.keyboardType = UIKeyboardTypeNamePhonePad;
-    self.passaginTextField.borderStyle = UITextBorderStyleRoundedRect;
-    self.passaginTextField.returnKeyType = UIReturnKeyDone;
     [self addSubview:_passaginTextField];
+   
     
-    
-    // 确认修改
-    self.makeSubmit = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.makeSubmit.frame = CGRectMake(CGRectGetMinX(self.passaginTextField.frame), CGRectGetMaxY(self.passaginTextField.frame)+20, 100, 30);
-    
-    [self.makeSubmit setTitle:@"确认修改" forState:UIControlStateNormal];
+    _makeSubmit = [ UIButton buttonWithFrame:CGRectMake(gap, CGRectGetMaxY(_passaginTextField.frame)+10,  widthgap,heightgap ) title:@"确认修改" backgroundColor: CustomerColorOfAlpha(31, 75, 165, 1  ) type:UIButtonTypeCustom target:self action:@selector(makeSubmitAction)];
+    _makeSubmit.layer.cornerRadius = heightgap /2;
+    _makeSubmit.titleLabel.font = [UIFont systemFontOfSize:12];
+    _makeSubmit.layer.masksToBounds = YES;
+    [_makeSubmit setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self addSubview:_makeSubmit];
+
     
-    [self.makeSubmit addTarget:self action:@selector(makeSubmitAction:) forControlEvents:UIControlEventTouchUpInside];
     
     
+    UIColor *colora = [UIColor whiteColor];
+    
+    _nameTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入用户名" attributes:@{NSForegroundColorAttributeName:colora}];
+    _passTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入旧密码" attributes:@{NSForegroundColorAttributeName:colora}];
+    _passaginTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入新密码" attributes:@{NSForegroundColorAttributeName:colora}];
+    
+    _nameTextField.delegate =self;
+    _passTextField.delegate = self;
+    _passaginTextField.delegate = self;
+    
+    
+    
+    [self stopKeyBoard:self];
     
 }
--(void)makeSubmitAction:(UIButton *)sender
+-(void)makeSubmitAction
 {
     [self.delegate getData];
 }
+-(void)stopKeyBoard:(UIView *)view
+{
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    //设置成NO表示当前控件响应后会传播到其他控件上，默认为YES。
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    //将触摸事件添加到当前view
+    [view addGestureRecognizer:tapGestureRecognizer];
+    
+}
 
+-(void)keyboardHide:(UITapGestureRecognizer*)tap{
+    DoLog(@"d 00");
+    [_nameTextField resignFirstResponder];
+    [_passTextField resignFirstResponder];
+    [_passaginTextField resignFirstResponder];
+    
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    // 响应者 1 有返回值，返回yes， 2 ，释放第一响应者
+    [textField resignFirstResponder];
+    return YES;
+}
 
 @end

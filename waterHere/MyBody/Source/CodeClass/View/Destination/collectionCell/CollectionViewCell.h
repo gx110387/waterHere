@@ -11,4 +11,6 @@
 @interface CollectionViewCell : UICollectionViewCell
 @property(nonatomic,strong)UIImageView *myImage;
 @property(nonatomic,strong) UILabel     *nameLabel;
+@property(nonatomic,strong) UILabel     *moreLabel;
+@property(nonatomic,strong) UIButton     *moreButton;
 @end

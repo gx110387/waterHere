@@ -11,7 +11,10 @@ typedef void(^G_PassValue)(NSMutableArray *array);
 
 typedef void(^MothValue)(DestinationModel *destionModel);
 
+
 @interface G_getDestinaData : NSObject
+@property(nonatomic,assign)  CGFloat cgkFontSize;
+@property(nonatomic,assign) NSInteger cgkStarWidthAndHeight;
 
 
 +(instancetype)shareGetDestinData;

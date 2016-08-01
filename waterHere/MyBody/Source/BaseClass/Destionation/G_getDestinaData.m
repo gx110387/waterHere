@@ -248,10 +248,16 @@ static G_getDestinaData *DSource = nil;
         
         for (NSDictionary *dict in [array valueForKey:@"items"]) {
           //  NSLog(@"%@",dict);
-            DestinationModel *trips = [[DestinationModel alloc] init];
-            [trips setValuesForKeysWithDictionary:dict];
-            NSLog(@"%@",trips.id1);
-            [self.G_TripsPosition addObject:trips];
+//            DestinationModel *trips = [[DestinationModel alloc] init];
+//            [trips setValuesForKeysWithDictionary:dict];
+//            NSLog(@"%@",trips.id1);
+//            [self.G_TripsPosition addObject:trips];
+//            
+//            
+            NearModel *model = [[NearModel alloc]init];
+            [model setValuesForKeysWithDictionary:dict];
+            [self.G_TripsPosition addObject:model];
+
             
         }
         value(self.G_TripsPosition);
