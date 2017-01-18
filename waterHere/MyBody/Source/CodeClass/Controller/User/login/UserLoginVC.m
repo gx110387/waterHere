@@ -52,8 +52,8 @@
     [leftButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     
     UIImageView *naviImg = [[UIImageView alloc]initWithFrame:CGRectMake(MainScreenWidth/2-G_Iphone6(60), 44/2-G_Iphone6(26/2), G_Iphone6(120),G_Iphone6(26))];
-    naviImg.image = [UIImage resizeImage:[UIImage imageNamed:@"NaviTitleImg"] withNewSize:CGSizeMake(G_Iphone6(120), G_Iphone6(26))];
-    
+    naviImg.image = [UIImage imageNamed:@"NaviTitleImg"];
+   
     
     [navationBar addSubview:leftButton];
     [navationBar addSubview:naviImg];
@@ -113,7 +113,7 @@
             [[G_shareTools shareTools]setUserLogin:u];
 //            self.mblock(u);
             [AlertShow alertShowWithContent:@"登陆成功:" Seconds:0.5f];
-            
+            [Toolshares resetLoginCode:@"0"];
             
            [self dismissViewControllerAnimated:YES completion:nil];
         } else {
@@ -128,6 +128,10 @@
 
 -(void)RegisternAction:(NSString *)UserName emil:(NSString *)emil phone:(NSString *)phone password:(NSString *)password agapsd:(NSString *)agapsd
 {
+    AVObject *testObject = [AVObject objectWithClassName:[NSString stringWithFormat:@"%@",[Toolshares getUserLogin]]];
+    [testObject save];
+    [testObject deleteInBackground];
+    
     AVUser *user = [AVUser user];
     user.username =  UserName;
     user.password = password  ;
@@ -135,18 +139,24 @@
     
     
     [user setObject:phone forKey:@"phone"];
-    NSLog(@"正在注册~");
+    NSLog(@"正在注册");
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"注册成功");
-            
+             [Toolshares resetLoginCode:@"0"];
+            UserLoginModel *u = [[UserLoginModel alloc] init];
+            u.username = UserName;
+            u.password = password;
+             [[G_shareTools shareTools]setUserLogin:u];
           [self dismissViewControllerAnimated:YES completion:nil];
         } else {
             NSLog(@"注册失败,%ld",error.code);
             if (error.code == 202) {
-                [AlertShow alertShowWithContent:@"此用户名已存在,换个再来~" Seconds:1.f];
+                [AlertShow alertShowWithContent:@"此用户名已存在,换个再来" Seconds:1.f];
             }
-            [AlertShow alertShowWithContent:@"注册失败,请仔细检查邮箱后再注册" Seconds:1.f];
+            if (error.code == 203) {
+                [AlertShow alertShowWithContent:@"电子邮箱地址已经被占用" Seconds:1.f];
+            }
             
         }
     }];

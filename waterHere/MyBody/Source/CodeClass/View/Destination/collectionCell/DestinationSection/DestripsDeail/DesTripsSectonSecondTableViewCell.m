@@ -2,8 +2,8 @@
 //  DesTripsSectonSecondTableViewCell.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/22.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/22.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "DesTripsSectonSecondTableViewCell.h"
@@ -25,7 +25,7 @@
     
     // 白色背景
     self.myBackgroundView = [[UIView alloc] init];
-    self.myBackgroundView.frame = CGRectMake(0, 0, MainScreenWidth, 150);
+    self.myBackgroundView.frame = CGRectMake(0, 0, MainScreenWidth, 110);
     self.myBackgroundView.layer.cornerRadius = 10;
     self.myBackgroundView.layer.masksToBounds = YES;
     self.myBackgroundView.backgroundColor = [UIColor whiteColor];
@@ -52,7 +52,7 @@
     // 评分
     self.myRatingLabel = [[UILabel alloc] init];
     
-    self.myRatingLabel.frame = CGRectMake( (CGRectGetWidth(self.frame)-40)/2-10, CGRectGetMaxY(self.myNameLabel.frame)+5, CGRectGetWidth(self.myNameLabel.frame), 20);
+    self.myRatingLabel.frame = CGRectMake( (CGRectGetWidth(self.frame)-40)/2-10, CGRectGetMaxY(self.myNameLabel.frame)+5, CGRectGetWidth(self.myNameLabel.frame), 0);
     // self.myRatingLabel.text = @"评分:4.5~//7人点评";
     // self.myRatingLabel.backgroundColor = [UIColor yellowColor];
     

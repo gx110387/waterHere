@@ -2,8 +2,8 @@
 //  MyBodyTests.m
 //  MyBodyTests
 //
-//  Created by lanou3g on 15/10/28.
-//  Copyright © 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/28.
+//  Copyright © 2015年 gx110387. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

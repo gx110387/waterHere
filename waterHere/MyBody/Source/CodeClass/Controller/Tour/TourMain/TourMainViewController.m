@@ -2,8 +2,8 @@
 //  TourMainViewController.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/14.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/14.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "TourMainViewController.h"
@@ -269,23 +269,18 @@
     StoryCollectionViewController *story = [[StoryCollectionViewController alloc]initWithCollectionViewLayout:flowLayout];
 
     flowLayout.itemSize = CGSizeMake(G_Iphone6(164), G_Iphone6(202+10+43));
-    flowLayout.sectionInset = UIEdgeInsetsMake(10, 17, 10, 17);
+    flowLayout.sectionInset = UIEdgeInsetsMake(G_Iphone6(10), G_Iphone6(17),G_Iphone6(10), G_Iphone6(17));
 
     
     [self.navigationController pushViewController:story animated:YES];
 }
-
-
-
 #pragma mark by hqx 15-1015 设置UIControllerView的各个代理函数
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 
 
-- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
+- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     NSLog(@"%ld",(unsigned long)self.storyArr.count);
     return self.storyArr.count;
 }
@@ -323,10 +318,12 @@
 {
     NSString *photoStr = self.photoArr[index];
     NSString *urlStr = [self.photoDict objectForKey:photoStr];
+    
     WebViewController *webView = [[WebViewController alloc]init];
+    HWNavigationController *nc = [[HWNavigationController alloc] initWithRootViewController:webView];
     webView.urlStr = urlStr;
     //NSLog(@"%@",self.photoDict);
-    [self.navigationController presentViewController:webView animated:YES completion:^{
+    [self.navigationController presentViewController:nc animated:YES completion:^{
         
     }];
 }

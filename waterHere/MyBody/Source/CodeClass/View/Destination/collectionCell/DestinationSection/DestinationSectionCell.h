@@ -2,8 +2,8 @@
 //  DestinationSectionCell.h
 //  MyBody
 //
-//  Created by hua on 16/7/14.
-//  Copyright © 2016年 lanou3g. All rights reserved.
+//  Created by gx110387 on 16/7/14.
+//  Copyright © 2016年 gx110387. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

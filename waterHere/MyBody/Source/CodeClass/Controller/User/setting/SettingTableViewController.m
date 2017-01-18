@@ -2,12 +2,13 @@
 //  SettingTableViewController.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/23.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/23.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "SettingTableViewController.h"
 #import "SDImageCache.h"
+
 @interface SettingTableViewController ()<UIAlertViewDelegate>
 
 @end
@@ -50,13 +51,13 @@
         
         if (indexPath.row == 0) {
             
-             cell.textLabel.text = [NSString stringWithFormat:@"修改密码~"];
+             cell.textLabel.text = [NSString stringWithFormat:@"修改密码"];
             
         }
         if (indexPath.row == 1) {
             CGFloat s = [[SDImageCache sharedImageCache] checkTmpSize];
           //  cell.lLabel.text = [NSString stringWithFormat:@"%.2fMB",s];
-             cell.textLabel.text = [NSString stringWithFormat:@"清空缓存~  %.2fMB",s];
+             cell.textLabel.text = [NSString stringWithFormat:@"清空缓存  %.2fMB",s];
             
         }
            }
@@ -64,7 +65,7 @@
     
     
     if (indexPath.section == 1) {
-        cell.textLabel.text = [NSString stringWithFormat:@"退出登录~"];
+        cell.textLabel.text = [NSString stringWithFormat:@"退出登录"];
     
     }
   
@@ -103,7 +104,7 @@
 //            [[NSUserDefaults standardUserDefaults] synchronize];
         [self.navigationController popToRootViewControllerAnimated:YES];
          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFor"];
-         [[NSUserDefaults standardUserDefaults]setBool:NO forKey:[[G_shareTools shareTools] getUserLogin] ];
+        [Toolshares logout];
         
     }
     
@@ -128,6 +129,8 @@
             
     }
 }
+
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

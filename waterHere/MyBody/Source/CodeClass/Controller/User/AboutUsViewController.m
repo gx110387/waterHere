@@ -2,8 +2,8 @@
 //  AboutUsViewController.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/27.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/27.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "AboutUsViewController.h"
@@ -14,8 +14,24 @@
 
 @implementation AboutUsViewController
 
+- (void)setNavBarAppearance:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    navBar.tintColor = [UIColor whiteColor];
+    navBar.barTintColor = nil;
+    navBar.shadowImage = nil;
+    navBar.translucent = YES;
+    navBar.barStyle = UIBarStyleBlackTranslucent;
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+     
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     // Do any additional setup after loading the view.
     self.navigationItem.title =@"关于我们";

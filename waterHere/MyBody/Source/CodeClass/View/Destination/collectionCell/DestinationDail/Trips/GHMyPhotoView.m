@@ -258,7 +258,7 @@
 
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index
 {
-    DoLog(@"gaoxing:%@==%ld",self.subviews,index);
+   // DoLog(@"gaoxing:%@==%ld",self.subviews,index);
     UIImageView *imageView  = self.subviews[index];
     return imageView.image;
 }

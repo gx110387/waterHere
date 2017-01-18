@@ -55,6 +55,7 @@
 
     disableTextAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:13];
     [item setTitleTextAttributes:disableTextAttrs forState:UIControlStateDisabled];
+    [super initialize];
 }
 
 - (void)viewDidLoad

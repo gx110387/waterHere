@@ -2,23 +2,29 @@
 //  G_shareTools.h
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/23.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/23.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-
+@class MBProgressHUD;
 
 
 typedef void(^G_Select)(NSMutableArray *array);
 typedef void(^G_isStart)(BOOL isflag);
 @interface G_shareTools : NSObject
 @property(nonatomic,assign)BOOL isFlag;
+@property (strong, nonatomic) NSString *loginCode;
+@property (nonatomic,retain) MBProgressHUD * hud;
 
 +(instancetype)shareTools;
 
 
+- (BOOL)isLogined;
+- (void)logout;
 
+
+- (void)resetLoginCode:(NSString *)loginCode;
 #pragma mark 分享
 
 -(void)G_shareText:(UIViewController *)view  shareName:(NSString *)text reason:(NSString*)reason imageurl:(NSString *)imageUrl;
@@ -29,7 +35,8 @@ typedef void(^G_isStart)(BOOL isflag);
 
 #pragma mark 取出用户名
 -(NSString *)getUserLogin;
-
+#pragma mark 小菊花
+- (void)g_setupProgressHud:(UIViewController *)sender;
 
 
 #pragma mark  热门地点收藏 高星 1类型 2 id 3 名字 4 原因 5 图片网址

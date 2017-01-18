@@ -2,8 +2,8 @@
 //  Trips2TableViewCell.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/18.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/18.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "Trips2TableViewCell.h"
@@ -61,7 +61,7 @@
     // 评分
     self.myTrip_rating = [[UILabel alloc] init];
     self.myTrip_rating.frame = CGRectMake(CGRectGetMinX(self.myUser_Name.frame) , CGRectGetMaxY(self.myUser_Name.frame)+10, CGRectGetWidth(self.frame)-CGRectGetWidth(self.myAvatar.frame)-5, CGRectGetHeight(self.myUser_Name.frame));
-    self.myTrip_rating.text =@"评分:4~";
+    self.myTrip_rating.text =@"评分:4";
     // self.myTrip_name.backgroundColor = [UIColor cyanColor];
     [self addSubview:_myTrip_rating];
     

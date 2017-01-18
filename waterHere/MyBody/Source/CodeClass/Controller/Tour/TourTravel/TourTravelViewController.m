@@ -3,7 +3,7 @@
 //  ZouZou
 //
 //  Created by hhuuqq on 15/10/19.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "TourTravelViewController.h"
@@ -97,11 +97,11 @@
 
 // by hqx 1020 页面数据处理
 - (void) H_data
-{
+{  [Toolshares g_setupProgressHud:self];
     self.travelDict = [NSMutableDictionary dictionary];
     self.dayArr = [NSMutableArray array];
         [[TourDataTool shareData]getSingleDictWithURL:[NSString stringWithFormat:@"http://api.breadtrip.com/trips/%@/waypoints/",self.model.ID] PassValue:^(NSDictionary *dict) {
-        
+            [Toolshares.hud hide:YES];
         [self.model setValuesForKeysWithDictionary:dict];
         NSDictionary *childDict = [dict objectForKey:@"user"];
         self.model.model = [[UserModel alloc]init];

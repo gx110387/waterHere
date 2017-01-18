@@ -26,6 +26,7 @@
 
 #define Tools [G_getDestinaData shareGetDestinData]
 
+#define Toolshares                   [G_shareTools shareTools]
 
 #define  gwidth  CGRectGetWidth(self.frame)
 #define  gheight CGRectGetHeight(self.frame)

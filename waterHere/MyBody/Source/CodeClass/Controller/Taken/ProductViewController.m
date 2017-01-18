@@ -3,7 +3,7 @@
 //  ZouZou
 //
 //  Created by NISIOISIN on 15/10/16.
-//  Copyright © 2015年 lanou3g. All rights reserved.
+//  Copyright © 2015年 gx110387. All rights reserved.
 //
 
 #import "ProductViewController.h"
@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.navigationItem.title=@"详情页面~";
+    self.navigationItem.title=@"详情页面";
     self.webview = [[UIWebView alloc]initWithFrame:self.view.frame];
     
     [self.view addSubview:_webview];

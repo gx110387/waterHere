@@ -86,7 +86,7 @@
 		85AA370F1D2E5C6E00C49498 /* User_noselet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 85AA370B1D2E5C6E00C49498 /* User_noselet@2x.png */; };
 		85AA37101D2E5C6E00C49498 /* User_noselet@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 85AA370C1D2E5C6E00C49498 /* User_noselet@3x.png */; };
 		85AA37111D2E5C6E00C49498 /* User_selet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 85AA370D1D2E5C6E00C49498 /* User_selet@2x.png */; };
-		85AA37121D2E5C6E00C49498 /* User_selet@2x@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 85AA370E1D2E5C6E00C49498 /* User_selet@2x@3x.png */; };
+		85AA37121D2E5C6E00C49498 /* User_selet@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 85AA370E1D2E5C6E00C49498 /* User_selet@3x.png */; };
 		85B698BC1D360CC2001CD6E8 /* AMRatingControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 85B698BB1D360CC2001CD6E8 /* AMRatingControl.m */; };
 		85ECE1341D3340C200C38F83 /* CollBgImg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 85ECE1321D3340C200C38F83 /* CollBgImg@2x.png */; };
 		85ECE1351D3340C200C38F83 /* CollBgImg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 85ECE1331D3340C200C38F83 /* CollBgImg@3x.png */; };
@@ -449,7 +449,7 @@
 		85AA370B1D2E5C6E00C49498 /* User_noselet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_noselet@2x.png"; sourceTree = "<group>"; };
 		85AA370C1D2E5C6E00C49498 /* User_noselet@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_noselet@3x.png"; sourceTree = "<group>"; };
 		85AA370D1D2E5C6E00C49498 /* User_selet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_selet@2x.png"; sourceTree = "<group>"; };
-		85AA370E1D2E5C6E00C49498 /* User_selet@2x@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_selet@2x@3x.png"; sourceTree = "<group>"; };
+		85AA370E1D2E5C6E00C49498 /* User_selet@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_selet@3x.png"; sourceTree = "<group>"; };
 		85B698BA1D360CC2001CD6E8 /* AMRatingControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMRatingControl.h; sourceTree = "<group>"; };
 		85B698BB1D360CC2001CD6E8 /* AMRatingControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMRatingControl.m; sourceTree = "<group>"; };
 		85ECE1321D3340C200C38F83 /* CollBgImg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CollBgImg@2x.png"; sourceTree = "<group>"; };
@@ -956,7 +956,7 @@
 				85AA370B1D2E5C6E00C49498 /* User_noselet@2x.png */,
 				85AA370C1D2E5C6E00C49498 /* User_noselet@3x.png */,
 				85AA370D1D2E5C6E00C49498 /* User_selet@2x.png */,
-				85AA370E1D2E5C6E00C49498 /* User_selet@2x@3x.png */,
+				85AA370E1D2E5C6E00C49498 /* User_selet@3x.png */,
 				85AA36F91D2E27C400C49498 /* NaviTitleImg@2x.png */,
 				85AA36FA1D2E27C400C49498 /* NaviTitleImg@3x.png */,
 				85AA36F51D2E26FF00C49498 /* NaviBarBg@2x.png */,
@@ -2344,7 +2344,8 @@
 				TargetAttributes = {
 					C257A4C31BE1089C00B33C2A = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = 2S2G9JCVG6;
+						DevelopmentTeam = AHSQSJ2HV2;
+						ProvisioningStyle = Automatic;
 					};
 					C257A4DC1BE1089D00B33C2A = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -2485,7 +2486,7 @@
 				85AA36BB1D2DF13100C49498 /* Intro_Screen_Two@3x.png in Resources */,
 				C2DB30CB1BE1A61400871322 /* UMSocialLocalizable.strings in Resources */,
 				85AA37111D2E5C6E00C49498 /* User_selet@2x.png in Resources */,
-				85AA37121D2E5C6E00C49498 /* User_selet@2x@3x.png in Resources */,
+				85AA37121D2E5C6E00C49498 /* User_selet@3x.png in Resources */,
 				85AA36CF1D2E16C200C49498 /* discover_selet@3x.png in Resources */,
 				8551152D1D3CB3980062A687 /* UserLogin@3x.png in Resources */,
 				C2DB30501BE1A61400871322 /* G_breakButton.png in Resources */,
@@ -2853,8 +2854,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AHSQSJ2HV2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2878,10 +2880,11 @@
 					"-licucore",
 					"-lz",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.diandilvxing.cgh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gao.cn;
 				PRODUCT_MODULE_NAME = "点滴旅行";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2890,8 +2893,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AHSQSJ2HV2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2915,7 +2919,7 @@
 					"-licucore",
 					"-lz",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.diandilvxing.cgh;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gao.cn;
 				PRODUCT_MODULE_NAME = "点滴旅行";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

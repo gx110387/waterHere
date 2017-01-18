@@ -2,8 +2,8 @@
 //  DestinationMainController.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/15.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/15.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "DestinationMainController.h"
@@ -41,7 +41,7 @@
         flow.sectionInset = UIEdgeInsetsMake(10, 17, 10, 17);
     
     
-    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, MainScreenWidth, MainScreenHeight-44-64) collectionViewLayout:flow];
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, MainScreenWidth, MainScreenHeight-64) collectionViewLayout:flow];
     self.collectionView.delegate =self;
     self.collectionView.dataSource = self;
  self.collectionView.backgroundColor = CustomerColor(240, 240, 240);

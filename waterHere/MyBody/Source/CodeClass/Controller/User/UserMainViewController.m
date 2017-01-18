@@ -2,8 +2,8 @@
 //  UserMainViewController.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/14.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/14.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "UserMainViewController.h"
@@ -27,16 +27,19 @@
 
 @implementation UserMainViewController
 #pragma mark  页面初始化 用来判断用户是否登录
--(void)viewWillAppear:(BOOL)animated
-{
-    
-    self.scrollFlag = YES;
-    
-    
-    [self isLogin];
+-(void)viewWillAppear:(BOOL)animated{
+      [super viewWillAppear:animated];
+     self.scrollFlag = YES;
+     [self isLogin];
 }
+
 -(void)isLogin
 {
+    if ([Toolshares isLogined] == YES) {
+     
+    }else{
+        self.tabBarController.selectedIndex = 0;
+    }
     AVUser *currentUser = [AVUser currentUser];
     if (currentUser != nil) {
         
@@ -48,11 +51,11 @@
             self.issavePhoto = NO;
         }
         AVFile *file =   [currentUser objectForKey:@"photo"];
-        if ([[[NSUserDefaults standardUserDefaults] valueForKey:[[G_shareTools shareTools] getUserLogin]] intValue]!=1) {
-            NSLog(@">>>>>>>>>%@",[file valueForKey:@"url"]);
+//        if ([[[NSUserDefaults standardUserDefaults] valueForKey:[[G_shareTools shareTools] getUserLogin]] intValue]!=1) {
+//            NSLog(@">>>>>>>>>%@",[file valueForKey:@"url"]);
             [self.userView.G_UserImage sd_setImageWithURL:[NSURL URLWithString:[file valueForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"picholder"]];
-            [[NSUserDefaults standardUserDefaults]setBool:YES forKey:[[G_shareTools shareTools] getUserLogin] ];
-        }
+           // [[NSUserDefaults standardUserDefaults]setBool:YES forKey:[[G_shareTools shareTools] getUserLogin] ];
+        //}
         
     } else {
         
@@ -65,10 +68,11 @@
 {
     
     self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.height = MainScreenHeight - 64;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.backgroundColor = CustomerColor(245, 248, 250);
+    self.tableView.backgroundColor =[UIColor colorWithHexString:@"fbf7ed"];// CustomerColor(245, 248, 250);
     // self.tableView.backgroundColor = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
     self.tableView.contentInset = UIEdgeInsetsMake(ImageHight-0, 0, 0, 0);
     [self.view addSubview:self.tableView];
@@ -88,7 +92,7 @@
     
     
     
-    self.userView.G_UserImage.frame = CGRectMake( CGRectGetWidth(self.userView.frame)/2-50, CGRectGetHeight(self.userView.frame)/2-50, 100, 100);
+    self.userView.G_UserImage.frame = CGRectMake( CGRectGetWidth(self.userView.frame)/2-50, CGRectGetHeight(self.userView.frame)/2-70, 100, 100);
     self.userView.G_UserImage.layer.cornerRadius = CGRectGetHeight(self.userView.G_UserImage.frame)/2;
     self.userView.G_UserImage.layer.masksToBounds = YES;
     self.userView.G_UserImage.backgroundColor = [UIColor cyanColor];
@@ -97,8 +101,8 @@
     
     
     //我的收藏
-    self.userView.G_UserStartLabel.frame = CGRectMake(CGRectGetMinX(self.userView.G_UserImage.frame), CGRectGetMaxY(self.userView.G_UserImage.frame)+10, 100, 30);
-    self.userView.G_UserStartLabel.backgroundColor  = [UIColor colorWithRed:251/255.0 green:247/255.0 blue:237/255.0 alpha:1];
+    self.userView.G_UserStartLabel.frame = CGRectMake(CGRectGetMinX(self.userView.G_UserImage.frame), CGRectGetMaxY(self.userView.G_UserImage.frame)+20, 100, 30);
+    
     self.userView.G_UserStartLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
 }
@@ -106,6 +110,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关于我们"   style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
  
     self.navigationItem.rightBarButtonItem= [UIBarButtonItem itemWithTarget:self action:@selector(shareButtonAction) image:@"setting" highImage:@"setting"];
@@ -274,7 +279,9 @@
     
     //    [[G_shareTools shareTools]G_selectStart:a forwardNum:(NSInteger)forwardNum count:(NSInteger)count value:^(NSMutableArray *array) {
     [[G_shareTools shareTools] G_selectStart:a forwardNum:0 count:5 value:^(NSMutableArray *array) {
-        
+        if (array.count== 0 || array.count <5) {
+            [self.tableView.footer setHidden:YES];
+        }
         self.G_UserArr = array;
         
         [self.tableView reloadData];
@@ -291,7 +298,9 @@
     NSNumber *a= [[NSNumber alloc] initWithInt:5];
     NSLog(@"%ld",self.G_UserArr.count);
     [[G_shareTools shareTools] G_selectStart:a forwardNum:self.G_UserArr.count count:5 value:^(NSMutableArray *array) {
-        
+        if (array.count== 0) {
+            [self.tableView.footer setHidden:YES];
+        }
         [self.G_UserArr addObjectsFromArray: array];
         [self.tableView reloadData];
         [self.tableView.footer endRefreshing];
@@ -329,22 +338,7 @@
         return;
     }
     CGFloat y = scrollView.contentOffset.y;//+NavigationBarHight;//根据实际选择加不加上NavigationBarHight（44、64 或者没有导航条）
-    DDLog(@"%f",y);
-    //    if (y >-64) {
-    //    CGRect frame = self.userView.frame;
-    ////       // CGRect frame =  self.userView.G_backgroundImage.frame;
-    //      //   frame.origin.y = y;
-    //        frame.size.height =  -y;//contentMode = UIViewContentModeScaleAspectFill时，高度改变宽度也跟着改变
-    //     self.userView.frame = frame;
-    //        AVUser *currentUser = [AVUser currentUser];
-    //        if (currentUser != nil) {
-    ////
-    //      self.userView.G_backgroundImage.frame =CGRectMake(0,0, CGRectGetWidth(self.userView.frame), CGRectGetHeight(self.userView.frame));
-    //        }else
-    //        {
-    //
-    //        }
-    //    }
+  
     if (y < -ImageHight) {
         CGRect frame = self.userView.frame;
         // CGRect frame =  self.userView.G_backgroundImage.frame;
@@ -473,7 +467,7 @@
     if (section == 0) {
         
  UILabel *youjiLable = [[ UILabel alloc] initWithFrame:CGRectMake(0, 0, MainScreenWidth, G_Iphone6(57))];
-    youjiLable.backgroundColor =[UIColor whiteColor];
+    youjiLable.backgroundColor = [UIColor colorWithHexString:@"fbf7ed"];
     youjiLable.textColor = CustomerColor(51, 51, 51);
     youjiLable.text = @"     游记&故事集";
          return youjiLable;
@@ -517,7 +511,7 @@
 {
     
     
-    return 150;
+    return 110;
 }
 
 /*

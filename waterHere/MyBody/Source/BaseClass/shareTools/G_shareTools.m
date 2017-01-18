@@ -2,12 +2,13 @@
 //  G_shareTools.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/23.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/23.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "G_shareTools.h"
 
+static NSString *const kUserdefaultsLoginCode = @"kUserdefaultsLoginCode";
 @interface G_shareTools ()<UMSocialUIDelegate>
 @property(nonatomic,strong)NSString *textDeail;
 @property (nonatomic,strong)UIAlertView *alertView;
@@ -98,6 +99,7 @@ static G_shareTools *st = nil;
 #pragma mark  热门地点收藏 高星
 -(void)G_setSaveStart:(NSString *)type id1:(NSString *)id1 name:(NSString *)name reason:(NSString *)reason imageUrl:(NSString *)imageUrl
 {
+    NSLog(@"-----------%@",[self getUserLogin]);
     
      AVObject *testObject = [AVObject objectWithClassName:[self getUserLogin]];
      [testObject save];
@@ -185,6 +187,7 @@ static G_shareTools *st = nil;
         }
         else
         {
+             passValue(self.G_selectArr);
             // 输出错误信息
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
@@ -232,4 +235,57 @@ static G_shareTools *st = nil;
     
 }
 
+
+- (NSString *)loginCode {
+    if (!_loginCode) {
+        if ([[NSUserDefaults standardUserDefaults] valueForKey:kUserdefaultsLoginCode]) {
+            _loginCode = [[NSUserDefaults standardUserDefaults] valueForKey:kUserdefaultsLoginCode];
+        }else {
+            _loginCode = @"";
+        }
+    }
+    return _loginCode;
+}
+
+#pragma mark -设置登陆状态
+- (void)resetLoginCode:(NSString *)loginCode {
+    [[NSUserDefaults standardUserDefaults] setValue:loginCode forKey:kUserdefaultsLoginCode];
+    _loginCode = loginCode;
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - 登陆态方法
+- (BOOL)isLogined {
+    if (self.loginCode == nil || [self.loginCode isEqualToString:@""]) {
+        return NO;
+    }else {
+        return YES;
+    }
+    
+}
+#pragma mark - 退出登陆
+- (void)logout {
+    
+    [self resetLoginCode:@""];
+    
+    
+}
+
+#pragma mark 小菊花
+- (void)g_setupProgressHud:(UIViewController *)sender
+{
+    
+    [_hud removeFromSuperview];
+    _hud = [[MBProgressHUD alloc] initWithView:sender.view] ;
+    _hud.frame = sender.view.bounds;
+    _hud.minSize = CGSizeMake(100, 100);
+    _hud.mode = MBProgressHUDModeIndeterminate;
+    _hud.labelText =@"正在加载...";
+    [sender.view addSubview:_hud];
+    //    [_hud hide:YES afterDelay:1];
+    _hud.dimBackground=NO;
+    [_hud show:YES];
+    
+    
+}
 @end

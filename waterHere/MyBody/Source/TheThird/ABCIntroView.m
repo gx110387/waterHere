@@ -37,10 +37,10 @@
     
      
      
-        [self createViewOne:@"Intro_Screen_One" content:@"记录旅行中的一点一滴~" width:0];
-        [self createViewOne:@"Intro_Screen_Two" content:@"书写旅途中的快乐瞬间~" width:MainScreenWidth];
-         [self createViewOne:@"Intro_Screen_Three" content:@"任性! 玩玩玩~" width:MainScreenWidth*2];
-         [self createViewOne:@"Intro_Screen_Four" content:@"感受生命的升华~" width:MainScreenWidth*3];
+        [self createViewOne:@"Intro_Screen_One" content:@"记录旅行中的一点一滴" width:0];
+        [self createViewOne:@"Intro_Screen_Two" content:@"书写旅途中的快乐瞬间" width:MainScreenWidth];
+         [self createViewOne:@"Intro_Screen_Three" content:@"任性! 玩玩玩" width:MainScreenWidth*2];
+         [self createViewOne:@"Intro_Screen_Four" content:@"感受生命的升华" width:MainScreenWidth*3];
         
         
         

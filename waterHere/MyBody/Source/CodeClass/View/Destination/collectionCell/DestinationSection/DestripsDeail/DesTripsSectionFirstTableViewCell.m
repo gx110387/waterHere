@@ -2,8 +2,8 @@
 //  DesTripsSectionFirstTableViewCell.m
 //  ZouZou
 //
-//  Created by lanou3g on 15/10/22.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Created by gx110387 on 15/10/22.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "DesTripsSectionFirstTableViewCell.h"
@@ -60,7 +60,7 @@
     
     // 足迹
     self.myWaypoints = [[UILabel alloc] init];
-    self.myWaypoints.frame = CGRectMake(CGRectGetMinX(self.myDay_count.frame),CGRectGetMinY(self.myDataLabel.frame),  CGRectGetWidth(self.myDataLabel.frame),CGRectGetHeight(self.myDataLabel.frame));
+    self.myWaypoints.frame = CGRectMake(CGRectGetMaxX(self.myDay_count.frame),CGRectGetMinY(self.myDataLabel.frame),  CGRectGetWidth(self.myDataLabel.frame),CGRectGetHeight(self.myDataLabel.frame));
     self.myWaypoints.textColor = [UIColor whiteColor];
     self.myWaypoints.text=@"1237足迹";
        self.myWaypoints.font = [UIFont systemFontOfSize:10];

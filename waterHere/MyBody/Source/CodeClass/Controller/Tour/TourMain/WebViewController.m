@@ -3,7 +3,7 @@
 //  ZouZou
 //
 //  Created by hhuuqq on 15/10/20.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "WebViewController.h"
@@ -25,23 +25,13 @@
     UIScrollView *scrollView = (UIScrollView *)[[self.webView subviews] objectAtIndex:0];
     scrollView.bounces = NO;
     [self.webView loadRequest:request];
-    UIImageView *backImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 60)];
-    // by hqx 1020 要给ImageView添加button点击事件,需要将其用户模式打开
-    backImageView.userInteractionEnabled = YES;
-    backImageView.image = [UIImage imageNamed:@"bg_nav.png"];
-    
-    [self.webView addSubview:backImageView];
-    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    leftButton.frame = CGRectMake(20, 30, 30, 20);
-    
-    [backImageView addSubview:leftButton];
-    [leftButton setTitle:@"返回" forState:UIControlStateNormal];
-    leftButton.titleLabel.textColor = [UIColor whiteColor];
-    [leftButton addTarget:self action:@selector(leftAction:) forControlEvents:UIControlEventTouchUpInside];
-    
+ 
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"   style:UIBarButtonItemStyleDone target:self action:@selector(leftAction)];
+    self.navigationItem.titleView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"NaviTitleImg"]];
+
 }
 
-- (void)leftAction:(UIButton *)sender
+- (void)leftAction 
 {
     [self dismissViewControllerAnimated:YES completion:^{
         

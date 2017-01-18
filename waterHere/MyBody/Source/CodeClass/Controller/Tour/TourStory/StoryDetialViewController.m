@@ -3,7 +3,7 @@
 //  ZouZou
 //
 //  Created by hhuuqq on 15/10/17.
-//  Copyright (c) 2015年 lanou3g. All rights reserved.
+//  Copyright (c) 2015年 gx110387. All rights reserved.
 //
 
 #import "StoryDetialViewController.h"
@@ -59,8 +59,9 @@
 // by hqx 1018 数据处理
 - (void) H_data
 {
+    [Toolshares g_setupProgressHud:self];
     [[TourDataTool shareData]getTourTravelDataWithURL:[NSString stringWithFormat:@"http://api.breadtrip.com/v2/new_trip/spot?spot_id=%@",self.model.spot_id] PassValue:^(NSDictionary *dict) {
-       
+        [Toolshares.hud hide:YES];
         NSDictionary *spotDict = [dict objectForKey:@"spot"];
         [self.model setValuesForKeysWithDictionary:spotDict];
         NSArray *arr = [spotDict objectForKey:@"detail_list"];
